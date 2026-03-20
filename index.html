@@ -1,243 +1,245 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="light">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ponyat — Fiches</title>
+<title>Ponyat — Fiches de révision</title>
+<script>(function(){var t=localStorage.getItem('ponyat_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root {
-  --bg:#F7F5F0; --bg2:#EDEAE2; --surface:#FFF; --border:#D8D3C8;
-  --text:#1C1A17; --text2:#6B6558; --accent:#2D5F4F; --accent-l:#EAF2EF;
-  --danger:#C0392B; --shadow:0 2px 12px rgba(0,0,0,.07);
-  --r:10px; --tr:.18s ease;
-}
-[data-theme="dark"] {
-  --bg:#141210; --bg2:#1C1A17; --surface:#232019; --border:#38342C;
-  --text:#EDE9E0; --text2:#9A9080; --accent:#4A9E86; --accent-l:#1A2E28;
-  --danger:#E05A4A; --shadow:0 2px 12px rgba(0,0,0,.35);
-}
+:root{--bg:#F7F5F0;--bg2:#EDEAE2;--surface:#FFF;--border:#D8D3C8;--text:#1C1A17;--text2:#6B6558;--accent:#2D5F4F;--accent-l:#EAF2EF;--danger:#C0392B;--shadow:0 2px 12px rgba(0,0,0,.07);--r:10px;--tr:.18s ease;}
+[data-theme="dark"]{--bg:#141210;--bg2:#1C1A17;--surface:#232019;--border:#38342C;--text:#EDE9E0;--text2:#9A9080;--accent:#4A9E86;--accent-l:#1A2E28;--danger:#E05A4A;--shadow:0 2px 12px rgba(0,0,0,.35);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr);}
 button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all var(--tr);}
 input,select,textarea{font-family:'DM Sans',sans-serif;}
-
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:200;gap:12px;}
-.logo{font-family:'Lora',serif;font-size:1.25rem;font-weight:600;color:var(--text);white-space:nowrap;}
+a{text-decoration:none;}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:200;gap:10px;flex-wrap:wrap;}
+.logo{font-family:'Lora',serif;font-size:1.2rem;font-weight:600;color:var(--text);white-space:nowrap;}
 .logo span{color:var(--accent);}
-.hactions{display:flex;gap:8px;align-items:center;}
-.btn-icon{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.hactions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.btn-icon{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;}
 .btn-icon:hover{background:var(--bg2);color:var(--text);}
-.btn-primary{background:var(--accent);color:#fff;border-radius:8px;padding:7px 16px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;}
-.btn-primary:hover{opacity:.88;transform:translateY(-1px);}
-.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:7px 14px;font-size:.85rem;font-weight:500;}
+.btn-primary{background:var(--accent);color:#fff;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer;border:none;}
+.btn-primary:hover{opacity:.88;}
+.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:6px 12px;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:5px;cursor:pointer;}
 .btn-secondary:hover{background:var(--bg2);color:var(--text);}
-
-.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 57px);}
-
-aside{border-right:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;overflow-y:auto;transition:background var(--tr),border-color var(--tr);}
-.sidebar-top{padding:12px 10px 6px;display:flex;gap:6px;}
-.sidebar-top button{font-size:.78rem;padding:6px 10px;border-radius:8px;flex:1;}
-.tree{padding:4px 8px 16px;flex:1;}
-.folder-row{display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:500;color:var(--text);}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid transparent;border-radius:8px;padding:7px 12px;font-size:.82rem;cursor:pointer;}
+.btn-danger:hover{background:#fff0ee;border-color:#fcc;}
+[data-theme="dark"] .btn-danger:hover{background:#2a1210;border-color:#5a2020;}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);padding:6px 11px;border-radius:8px;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px;cursor:pointer;}
+.nav-link:hover{background:var(--bg2);color:var(--text);}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:calc(100vh - 57px);}
+aside{border-right:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;overflow-y:auto;}
+.sidebar-top{padding:10px 8px 6px;display:flex;gap:5px;}
+.sidebar-top button{font-size:.76rem;padding:6px 8px;border-radius:8px;flex:1;}
+.tree{padding:4px 6px 16px;flex:1;}
+.folder-row{display:flex;align-items:center;gap:5px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:500;color:var(--text);}
 .folder-row:hover{background:var(--bg2);}
-.folder-arrow{font-size:.65rem;color:var(--text2);width:12px;text-align:center;transition:transform var(--tr);}
+.folder-arrow{font-size:.6rem;color:var(--text2);width:12px;text-align:center;transition:transform var(--tr);display:inline-block;}
 .folder-arrow.open{transform:rotate(90deg);}
 .folder-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.folder-menu-btn{opacity:0;font-size:.8rem;color:var(--text2);padding:2px 5px;border-radius:4px;background:transparent;border:none;cursor:pointer;}
+.folder-menu-btn{opacity:0;font-size:.8rem;color:var(--text2);padding:2px 5px;border-radius:4px;background:transparent;border:none;cursor:pointer;line-height:1;}
 .folder-row:hover .folder-menu-btn{opacity:1;}
 .folder-menu-btn:hover{background:var(--bg2);color:var(--text);}
-.folder-children{padding-left:16px;}
-.fiche-row{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:.83rem;color:var(--text2);margin:1px 0;}
+.folder-children{padding-left:14px;}
+.fiche-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:.82rem;color:var(--text2);margin:1px 0;}
 .fiche-row:hover{background:var(--bg2);color:var(--text);}
 .fiche-row.active{background:var(--accent-l);color:var(--accent);}
 .fiche-dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;}
 .fiche-row.active .fiche-dot{background:var(--accent);}
 .fiche-row-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-
-main{padding:36px 44px;overflow-y:auto;max-height:calc(100vh - 57px);}
-
-.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;gap:14px;color:var(--text2);}
-.welcome-icon{font-size:3rem;opacity:.35;}
-.welcome h2{font-family:'Lora',serif;font-size:1.5rem;color:var(--text);font-weight:400;}
-.welcome p{font-size:.88rem;line-height:1.7;max-width:300px;}
-
-.fiche-view{animation:fadeIn .18s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.fv-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;}
-.fv-title{font-family:'Lora',serif;font-size:1.9rem;font-weight:600;line-height:1.2;}
-.fv-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;}
-.badge{display:inline-block;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:20px;padding:3px 10px;}
+main{padding:32px 40px;overflow-y:auto;max-height:calc(100vh - 57px);}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:58vh;text-align:center;gap:14px;color:var(--text2);}
+.welcome-icon{font-size:2.8rem;opacity:.3;}
+.welcome h2{font-family:'Lora',serif;font-size:1.45rem;color:var(--text);font-weight:400;}
+.welcome p{font-size:.87rem;line-height:1.7;max-width:300px;}
+.welcome a{color:var(--accent);}
+.fiche-view{animation:fadeIn .15s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.fv-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:14px;}
+.fv-title{font-family:'Lora',serif;font-size:1.8rem;font-weight:600;line-height:1.2;}
+.fv-meta{display:flex;align-items:center;gap:7px;margin-top:5px;flex-wrap:wrap;}
+.badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:20px;padding:3px 10px;}
 .badge-m{background:var(--accent-l);color:var(--accent);}
 .badge-f{background:var(--bg2);color:var(--text2);}
-.fv-actions{display:flex;gap:8px;flex-shrink:0;}
-.btn-edit{background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-size:.82rem;cursor:pointer;}
-.btn-edit:hover{background:var(--border);}
-.btn-del{background:transparent;color:var(--danger);border:1px solid transparent;border-radius:8px;padding:7px 13px;font-size:.82rem;cursor:pointer;}
-.btn-del:hover{background:#fff0ee;}
-[data-theme="dark"] .btn-del:hover{background:#2a1210;}
-
-.sec-block{margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
-.sec-hd{padding:9px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
-.sec-badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-l);border-radius:4px;padding:2px 8px;}
-.sec-hd-title{font-family:'Lora',serif;font-size:.93rem;font-weight:600;}
-.sec-body{padding:14px 16px;font-size:.88rem;line-height:1.8;white-space:pre-wrap;}
-
-.rev-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-.rev-table th{background:var(--bg2);font-weight:600;padding:8px 12px;text-align:left;border:1px solid var(--border);}
-.rev-table td{padding:7px 12px;border:1px solid var(--border);}
+.fv-actions{display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap;}
+.sec-block{margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
+.sec-hd{padding:8px 15px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
+.sec-badge{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-l);border-radius:4px;padding:2px 7px;}
+.sec-hd-title{font-family:'Lora',serif;font-size:.9rem;font-weight:600;}
+.sec-body{padding:13px 15px;font-size:.87rem;line-height:1.78;white-space:pre-wrap;}
+.rev-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.rev-table th{background:var(--bg2);font-weight:600;padding:7px 11px;text-align:left;border:1px solid var(--border);}
+.rev-table td{padding:6px 11px;border:1px solid var(--border);}
 .rev-table tr:nth-child(even) td{background:var(--bg);}
-
-.tl-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;}
-.tl-left{display:flex;flex-direction:column;align-items:center;width:80px;flex-shrink:0;}
-.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-.tl-date{font-size:.75rem;font-weight:700;color:var(--accent);text-align:center;margin-top:4px;line-height:1.3;}
-.tl-line{width:2px;flex:1;min-height:16px;background:var(--border);margin-top:4px;}
-.tl-content{flex:1;}
-.tl-ev-title{font-weight:600;font-size:.88rem;margin-bottom:2px;}
-.tl-ev-desc{font-size:.81rem;color:var(--text2);line-height:1.6;}
-
+.tl-item{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start;}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:76px;flex-shrink:0;}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.tl-date{font-size:.72rem;font-weight:700;color:var(--accent);text-align:center;margin-top:3px;line-height:1.3;}
+.tl-line{width:2px;flex:1;min-height:14px;background:var(--border);margin-top:3px;}
+.tl-ev-title{font-weight:600;font-size:.86rem;margin-bottom:2px;}
+.tl-ev-desc{font-size:.79rem;color:var(--text2);line-height:1.55;}
 .sketch-view-canvas{border-radius:6px;border:1px solid var(--border);max-width:100%;display:block;}
-
-.editor-wrap{animation:fadeIn .18s ease;max-width:780px;}
-.editor-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
-.editor-top h2{font-family:'Lora',serif;font-size:1.3rem;font-weight:600;}
-.fg{margin-bottom:14px;}
-label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin-bottom:5px;}
-input[type="text"],select,textarea{font-size:.88rem;width:100%;padding:8px 12px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--r);outline:none;transition:border-color var(--tr);}
+.chart-container{padding:14px 15px;position:relative;height:280px;}
+.editor-wrap{animation:fadeIn .15s ease;max-width:760px;}
+.editor-top{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.editor-top h2{font-family:'Lora',serif;font-size:1.25rem;font-weight:600;}
+.fg{margin-bottom:13px;}
+label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin-bottom:4px;}
+input[type="text"],select,textarea{font-size:.87rem;width:100%;padding:8px 11px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--r);outline:none;transition:border-color var(--tr);}
 input[type="text"]:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l);}
-textarea{resize:vertical;min-height:88px;}
+textarea{resize:vertical;min-height:86px;}
 select{cursor:pointer;}
-
-.seb{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);}
-.seb-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--border);}
-.seb-hd select{width:auto;padding:4px 8px;font-size:.75rem;}
-.seb-hd input{flex:1;border:none;background:transparent;font-weight:500;font-size:.85rem;padding:4px 0;outline:none;}
-.seb-hd input:focus{box-shadow:none;border-color:transparent;}
-.btn-rm{background:transparent;color:var(--danger);font-size:1.1rem;padding:2px 6px;border-radius:6px;line-height:1;}
+.seb{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:11px;overflow:hidden;box-shadow:var(--shadow);}
+.seb-hd{display:flex;align-items:center;gap:7px;padding:7px 11px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.seb-hd select{width:auto;padding:4px 8px;font-size:.74rem;}
+.seb-hd input{flex:1;border:none;background:transparent;font-weight:500;font-size:.84rem;padding:4px 0;outline:none;}
+.btn-rm{background:transparent;color:var(--danger);font-size:1.1rem;padding:1px 5px;border-radius:5px;line-height:1;cursor:pointer;}
 .btn-rm:hover{background:#fff0ee;}
 [data-theme="dark"] .btn-rm:hover{background:#2a1210;}
-.seb-body{padding:12px;}
-
+.seb-body{padding:11px;}
 .te-wrap{overflow-x:auto;}
-.te{border-collapse:collapse;font-size:.83rem;width:100%;}
+.te{border-collapse:collapse;font-size:.82rem;width:100%;}
 .te th,.te td{border:1px solid var(--border);padding:0;}
-.te th input,.te td input{width:100%;padding:6px 8px;border:none;background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.83rem;}
+.te th input,.te td input{width:100%;padding:5px 7px;border:none;background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;}
 .te th{background:var(--bg2);}
 .te th input{font-weight:600;}
-.te-actions{display:flex;gap:6px;margin-top:8px;}
-.te-actions button{font-size:.75rem;padding:4px 10px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);cursor:pointer;}
+.te-actions{display:flex;gap:5px;margin-top:7px;}
+.te-actions button{font-size:.74rem;padding:4px 9px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);cursor:pointer;}
 .te-actions button:hover{background:var(--border);color:var(--text);}
-
-.tl-editor-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;}
-.tl-editor-item input[type="text"]:first-child{width:100px;flex-shrink:0;}
-.tl-editor-item textarea{flex:1;min-height:52px;}
-
-.sketch-wrap{display:flex;flex-direction:column;gap:8px;}
-.sketch-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.sketch-tools button{font-size:.75rem;padding:5px 10px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.tl-editor-item{display:flex;gap:7px;align-items:flex-start;margin-bottom:9px;}
+.tl-editor-item textarea{flex:1;min-height:50px;}
+.sketch-wrap{display:flex;flex-direction:column;gap:7px;}
+.sketch-tools{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.sketch-tools button{font-size:.74rem;padding:5px 9px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);cursor:pointer;}
 .sketch-tools button:hover,.stool-active{background:var(--accent-l)!important;color:var(--accent)!important;border-color:var(--accent)!important;}
-.sketch-tools input[type="color"]{width:30px;height:28px;border-radius:6px;border:1px solid var(--border);padding:2px;cursor:pointer;background:var(--surface);}
-.sketch-tools input[type="range"]{width:80px;accent-color:var(--accent);}
+.sketch-tools input[type="color"]{width:28px;height:26px;border-radius:5px;border:1px solid var(--border);padding:2px;cursor:pointer;background:var(--surface);}
+.sketch-tools input[type="range"]{width:76px;accent-color:var(--accent);}
 .sketch-canvas{border:1px solid var(--border);border-radius:var(--r);cursor:crosshair;background:#fff;display:block;max-width:100%;touch-action:none;}
-
-.img-zone{border:2px dashed var(--border);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;color:var(--text2);font-size:.85rem;transition:border-color var(--tr);}
+.img-zone{border:2px dashed var(--border);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;color:var(--text2);font-size:.84rem;transition:border-color var(--tr);}
 .img-zone:hover{border-color:var(--accent);color:var(--accent);}
-.img-preview{margin-top:10px;}
-.img-preview img{max-width:100%;max-height:180px;border-radius:6px;border:1px solid var(--border);}
-
-.btn-add-sec{width:100%;padding:10px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r);color:var(--text2);font-size:.83rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;}
+.img-preview{margin-top:9px;}
+.img-preview img{max-width:100%;max-height:170px;border-radius:5px;border:1px solid var(--border);}
+.btn-add-sec{width:100%;padding:9px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r);color:var(--text2);font-size:.82rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;cursor:pointer;}
 .btn-add-sec:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l);}
-.editor-footer{display:flex;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid var(--border);}
-
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;animation:fadeIn .15s ease;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px;width:370px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,.15);}
-.modal h3{font-family:'Lora',serif;font-size:1.1rem;margin-bottom:14px;}
-.modal-footer{display:flex;gap:8px;margin-top:18px;justify-content:flex-end;}
-
-.drop-menu{position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);min-width:175px;z-index:500;overflow:hidden;}
-.drop-item{padding:9px 14px;font-size:.83rem;cursor:pointer;color:var(--text);}
+.editor-footer{display:flex;gap:9px;margin-top:20px;padding-top:15px;border-top:1px solid var(--border);}
+.chart-type-row{display:flex;gap:7px;margin-bottom:10px;}
+.chart-type-btn{padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.78rem;cursor:pointer;}
+.chart-type-btn.active{background:var(--accent-l);color:var(--accent);border-color:var(--accent);}
+.chart-label-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.modal-wrap{display:none;position:fixed;inset:0;z-index:1000;}
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.42);display:flex;align-items:center;justify-content:center;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;width:400px;max-width:94vw;box-shadow:0 8px 32px rgba(0,0,0,.18);position:relative;z-index:1;}
+.modal h3{font-family:'Lora',serif;font-size:1.05rem;margin-bottom:13px;}
+.modal-footer{display:flex;gap:8px;margin-top:16px;justify-content:flex-end;}
+.drop-menu{position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);min-width:170px;z-index:500;overflow:hidden;}
+.drop-item{padding:8px 13px;font-size:.82rem;cursor:pointer;color:var(--text);}
 .drop-item:hover{background:var(--bg2);}
 .drop-item.danger{color:var(--danger);}
 .drop-item.danger:hover{background:#fff0ee;}
 [data-theme="dark"] .drop-item.danger:hover{background:#2a1210;}
-
-.stype-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.stype-btn{padding:12px 6px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.78rem;font-weight:500;text-align:center;cursor:pointer;line-height:1.6;}
+.stype-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.stype-btn{padding:11px 5px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.76rem;font-weight:500;text-align:center;cursor:pointer;line-height:1.55;}
 .stype-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l);}
+.pnf-textarea{font-family:'Courier New',monospace;font-size:.76rem;min-height:190px;background:var(--bg);}
+.help-block{background:var(--bg2);border-radius:var(--r);padding:12px 14px;margin-bottom:9px;border:1px solid var(--border);}
+.help-block-title{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+
+/* ═══ ÉDITEUR D'IMPRESSION ═══════════════════════════════ */
+.print-panel{display:none;position:fixed;inset:0;z-index:900;background:var(--bg);flex-direction:column;}
+.print-panel.open{display:flex;}
+.print-tb{display:flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;}
+.print-tb-title{font-size:.85rem;font-weight:600;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Lora',serif;}
+.ptbtn{font-size:.78rem;padding:5px 11px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .15s;}
+.ptbtn:hover{background:var(--border);color:var(--text);}
+.ptbtn.pon{background:var(--accent-l);color:var(--accent);border-color:var(--accent);}
+.ptbtn.pgo{background:var(--accent);color:#fff;border-color:var(--accent);}
+.ptbtn.pgo:hover{opacity:.88;}
+.ptbtn.pred{color:var(--danger);border-color:transparent;}
+.ptbtn.pred:hover{background:rgba(192,57,43,.1);}
+.ptbtn-close{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:7px;padding:5px 11px;font-size:.78rem;cursor:pointer;}
+.ptbtn-close:hover{background:var(--bg2);color:var(--text);}
+.print-ws{display:flex;flex:1;overflow:hidden;}
+.print-sb{width:210px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;padding:10px 7px;gap:3px;}
+.print-sb-lbl{font-size:.63rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);padding:4px 7px 8px;border-bottom:1px solid var(--border);margin-bottom:3px;}
+.psi{padding:7px 9px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);font-size:.78rem;cursor:grab;display:flex;align-items:center;gap:7px;color:var(--text2);user-select:none;transition:all .15s;}
+.psi:hover{border-color:var(--accent);background:var(--accent-l);color:var(--accent);}
+.psi.pused{opacity:.35;cursor:default;pointer-events:none;}
+.print-cv{flex:1;overflow:auto;padding:28px;display:flex;align-items:flex-start;justify-content:center;}
+/* Page A4 toujours fond blanc indépendamment du thème */
+.ppage{background:#fff;color:#1C1A17;position:relative;flex-shrink:0;font-family:'DM Sans',sans-serif;box-shadow:0 4px 32px rgba(0,0,0,.35);}
+.ppage.ppor{width:794px;min-height:1123px;}
+.ppage.plan{width:1123px;min-height:794px;}
+.ppage-grid{position:absolute;inset:0;pointer-events:none;opacity:0;background-image:linear-gradient(rgba(45,95,79,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(45,95,79,.07) 1px,transparent 1px);background-size:20px 20px;transition:opacity .2s;}
+.ppage-grid.on{opacity:1;}
+.ppage-drop{position:absolute;inset:0;z-index:1;pointer-events:none;}
+.ppage-drop.ov{background:rgba(45,95,79,.06);}
+.ppage-foot{position:absolute;bottom:16px;left:28px;right:28px;display:flex;justify-content:space-between;font-size:.58rem;color:#9A9080;border-top:1px solid #E8E3DA;padding-top:6px;pointer-events:none;}
+.pwg{position:absolute;background:#fff;border:1.5px solid #D8D3C8;border-radius:7px;overflow:hidden;min-width:100px;min-height:40px;z-index:10;user-select:none;}
+.pwg:hover{border-color:#2D5F4F;box-shadow:0 2px 12px rgba(45,95,79,.18);}
+.pwg.psel{border-color:#2D5F4F;box-shadow:0 0 0 2.5px rgba(45,95,79,.22);}
+.pwg-hd{background:#F2EFE8;padding:5px 8px;border-bottom:1px solid #E0DAD0;display:flex;align-items:center;gap:5px;cursor:move;}
+.pwg-badge{font-size:.52rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#2D5F4F;background:#EAF2EF;border-radius:3px;padding:2px 5px;flex-shrink:0;}
+.pwg-ttl{flex:1;font-family:'Lora',serif;font-size:.75rem;font-weight:600;color:#1C1A17;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pwg-x{background:transparent;border:none;cursor:pointer;color:#C0392B;font-size:.9rem;padding:0 2px;line-height:1;}
+.pwg-body{padding:8px 10px;font-size:.76rem;line-height:1.6;color:#1C1A17;overflow:hidden;}
+.pwg-body img{max-width:100%;display:block;border-radius:3px;}
+.pwg-rsz{position:absolute;bottom:2px;right:3px;font-size:.7rem;color:#B0A898;cursor:nwse-resize;width:14px;height:14px;display:flex;align-items:center;justify-content:center;}
+.pwt{width:100%;border-collapse:collapse;font-size:.7rem;}
+.pwt th{background:#F2EFE8;font-weight:600;padding:3px 6px;text-align:left;border:1px solid #E0DAD0;}
+.pwt td{padding:3px 6px;border:1px solid #E0DAD0;}
+.pwt tr:nth-child(even) td{background:#F9F7F3;}
+.pwtl{display:flex;gap:7px;margin-bottom:6px;}
+.pwtl-l{display:flex;flex-direction:column;align-items:center;width:46px;flex-shrink:0;}
+.pwtl-dot{width:6px;height:6px;border-radius:50%;background:#2D5F4F;}
+.pwtl-dt{font-size:.58rem;font-weight:700;color:#2D5F4F;text-align:center;margin-top:2px;line-height:1.2;}
+.pwtl-ln{width:2px;flex:1;min-height:8px;background:#D8D3C8;margin-top:2px;}
+.pwtl-ttl{font-weight:600;font-size:.7rem;margin-bottom:1px;}
+.pwtl-dsc{font-size:.64rem;color:#6B6558;}
+.print-ld{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;}
+.print-spin{width:36px;height:36px;border:3px solid rgba(255,255,255,.2);border-top-color:#4A9E86;border-radius:50%;animation:printSpin .8s linear infinite;}
+@keyframes printSpin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="logo">Ponyat <span>·</span> Fiches</div>
+  <a href="index.html" class="logo">Ponyat <span>·</span> Fiches</a>
   <div class="hactions">
-    <label class="btn-secondary" style="cursor:pointer;display:flex;align-items:center;gap:6px;padding:7px 14px;font-size:.85rem;font-weight:500;border:1px solid var(--border);border-radius:8px;color:var(--text2);">
-      📂 Importer
-      <input type="file" accept=".json" id="importInput" style="display:none">
-    </label>
-    <button class="btn-secondary" id="btnExport">💾 Exporter</button>
-    <button class="btn-icon" id="btnHelp" title="Aide export/import">?</button>
-    <button class="btn-icon" id="toggleTheme">🌙</button>
-    <button class="btn-primary" id="btnNouvelleFiche">+ Nouvelle fiche</button>
+    <a href="prompt.html" class="nav-link">🤖 GÉNÉRER AVEC IA</a>
+    <button class="btn-secondary" onclick="openPnfModal()">📋 COLLER PNF</button>
+    <label class="btn-secondary" style="cursor:pointer;">📂 IMPORTER JSON<input type="file" accept=".json" id="importJsonInput" style="display:none"></label>
+    <button class="btn-secondary" id="btnExport">💾 EXPORTER JSON</button>
+    <button class="btn-icon" id="btnHelp" title="Aide">?</button>
+    <button class="btn-icon" id="toggleTheme" title="Thème">🌙</button>
+    <button class="btn-primary" id="btnNouvelleFiche">+ NOUVELLE FICHE</button>
   </div>
 </header>
-
 <div class="app">
   <aside>
-    <div class="sidebar-top">
-      <button class="btn-secondary" onclick="openFolderModal(null)">📁 Nouveau dossier</button>
-    </div>
+    <div class="sidebar-top"><button class="btn-secondary" onclick="openFolderModal(null)">📁 Nouveau dossier</button></div>
     <div class="tree" id="tree"></div>
   </aside>
   <main id="mainContent">
-    <div class="welcome">
-      <div class="welcome-icon">📖</div>
-      <h2>Bienvenue sur Ponyat</h2>
-      <p>Crée un dossier et ta première fiche de révision.</p>
-    </div>
+    <div class="welcome"><div class="welcome-icon">📖</div><h2>Bienvenue sur Ponyat</h2><p>Crée un dossier et ta première fiche, ou <a href="prompt.html">génère-en une avec une IA</a>.</p></div>
   </main>
 </div>
 
-<!-- MODAL AIDE -->
-<div id="helpModal" style="display:none">
-  <div class="modal-overlay" onclick="if(event.target===this)document.getElementById('helpModal').style.display='none'">
-    <div class="modal" style="width:480px">
-      <h3>💾 Comment sauvegarder ses fiches ?</h3>
-      <p style="font-size:.88rem;line-height:1.75;color:var(--text2);margin-bottom:14px;">Ponyat conserve tes fiches dans le navigateur (mémoire locale). C'est pratique, mais <strong style="color:var(--text)">si tu vides ton navigateur ou changes d'appareil, tu perds tout</strong>.</p>
-      <div style="background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;border:1px solid var(--border)">
-        <div style="font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">💾 Exporter</div>
-        <p style="font-size:.86rem;line-height:1.7;color:var(--text)">Clique sur <strong>Exporter</strong> pour télécharger un fichier <code style="background:var(--border);border-radius:4px;padding:1px 5px;font-size:.82rem">ponyat_fiches.json</code> sur ton ordinateur. Ce fichier contient <em>toutes</em> tes fiches, dossiers, images et croquis. <strong>Garde-le précieusement</strong> — c'est ta sauvegarde.</p>
-      </div>
-      <div style="background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:4px;border:1px solid var(--border)">
-        <div style="font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">📂 Importer</div>
-        <p style="font-size:.86rem;line-height:1.7;color:var(--text)">Sur un autre appareil (ou après avoir vidé le navigateur), clique sur <strong>Importer</strong> et sélectionne ton fichier <code style="background:var(--border);border-radius:4px;padding:1px 5px;font-size:.82rem">.json</code>. Toutes tes fiches seront restaurées.</p>
-      </div>
-      <p style="font-size:.78rem;color:var(--text2);margin-top:12px;">💡 Bonne pratique : exporte régulièrement, par exemple après chaque session de travail.</p>
-      <div class="modal-footer"><button class="btn-primary" onclick="document.getElementById('helpModal').style.display='none'">Compris !</button></div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL DOSSIER -->
-<div id="folderModal" style="display:none">
-  <div class="modal-overlay" onclick="if(event.target===this)closeFolderModal()">
+<div class="modal-wrap" id="folderModal">
+  <div class="modal-overlay" onclick="if(event.target===this)closeModal('folderModal')">
     <div class="modal">
       <h3 id="fmTitle">Nouveau dossier</h3>
       <div class="fg"><label>Nom</label><input type="text" id="fmName" placeholder="Ex : Histoire-Géo"></div>
       <div class="fg" id="fmParentGroup"><label>Dossier parent</label><select id="fmParent"></select></div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="closeFolderModal()">Annuler</button>
-        <button class="btn-primary" onclick="confirmFolder()">Valider</button>
-      </div>
+      <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('folderModal')">Annuler</button><button class="btn-primary" onclick="confirmFolder()">Valider</button></div>
     </div>
   </div>
 </div>
 
-<!-- MODAL TYPE SECTION -->
-<div id="addSecModal" style="display:none">
-  <div class="modal-overlay" onclick="if(event.target===this)closeAddSecModal()">
-    <div class="modal">
+<div class="modal-wrap" id="addSecModal">
+  <div class="modal-overlay" onclick="if(event.target===this)closeModal('addSecModal')">
+    <div class="modal" style="width:440px">
       <h3>Ajouter une section</h3>
       <div class="stype-grid">
         <button class="stype-btn" onclick="addSection('texte')">📝<br>Texte</button>
@@ -249,337 +251,509 @@ select{cursor:pointer;}
         <button class="stype-btn" onclick="addSection('tableau')">🗂️<br>Tableau</button>
         <button class="stype-btn" onclick="addSection('frise')">📏<br>Frise chrono.</button>
         <button class="stype-btn" onclick="addSection('croquis')">✏️<br>Croquis</button>
+        <button class="stype-btn" onclick="addSection('graphe')">📈<br>Graphique</button>
       </div>
-      <div class="modal-footer"><button class="btn-secondary" onclick="closeAddSecModal()">Annuler</button></div>
+      <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('addSecModal')">Annuler</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-wrap" id="pnfModal">
+  <div class="modal-overlay" onclick="if(event.target===this)closeModal('pnfModal')">
+    <div class="modal" style="width:540px">
+      <h3>📋 Coller une fiche PNF</h3>
+      <p style="font-size:.84rem;color:var(--text2);margin-bottom:11px;line-height:1.6">Colle ici le bloc généré par l'IA (de <code style="background:var(--border);border-radius:3px;padding:1px 5px">==PONYAT_FICHE==</code> jusqu'à <code style="background:var(--border);border-radius:3px;padding:1px 5px">==FIN==</code>).</p>
+      <div class="fg"><label>Contenu PNF</label><textarea id="pnfTextarea" class="pnf-textarea" placeholder="==PONYAT_FICHE==&#10;TITRE: ...&#10;MATIERE: ...&#10;---SECTION---&#10;...&#10;==FIN=="></textarea></div>
+      <div class="fg"><label>Ajouter dans le dossier (optionnel)</label><select id="pnfFolder"><option value="">— Aucun —</option></select></div>
+      <div id="pnfError" style="color:var(--danger);font-size:.81rem;margin-top:3px;display:none"></div>
+      <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('pnfModal')">Annuler</button><button class="btn-primary" onclick="confirmPnfImport()">Importer</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-wrap" id="helpModal">
+  <div class="modal-overlay" onclick="if(event.target===this)closeModal('helpModal')">
+    <div class="modal" style="width:470px">
+      <h3>💾 Sauvegarder & partager</h3>
+      <div class="help-block"><div class="help-block-title">💾 Exporter JSON</div><p style="font-size:.84rem;line-height:1.7">Sauvegarde complète de toutes tes fiches, dossiers, images et croquis.</p></div>
+      <div class="help-block"><div class="help-block-title">📂 Importer JSON</div><p style="font-size:.84rem;line-height:1.7">Restaure tout depuis un fichier exporté.</p></div>
+      <div class="help-block"><div class="help-block-title">📋 Coller PNF</div><p style="font-size:.84rem;line-height:1.7">Importe une fiche générée par une IA. Va sur <a href="prompt.html" style="color:var(--accent)">Générer avec IA</a> pour obtenir le prompt.</p></div>
+      <p style="font-size:.76rem;color:var(--text2);margin-top:10px;">💡 Exporte le JSON après chaque session.</p>
+      <div class="modal-footer"><button class="btn-primary" onclick="closeModal('helpModal')">Compris !</button></div>
     </div>
   </div>
 </div>
 
 <script>
-// ═══ DATA ═══════════════════════════════════════════════════
 const SK='ponyat_v2';
-let db=loadDB(), currentId=null, edSecs=[], editingId=null, fmEditId=null, activeDD=null;
-let openFolders=new Set();
+const MATIERES=['Histoire','Géographie','Français','Maths','Sciences','SES','Philosophie','Langues','Autre'];
+const TLABELS={texte:'Texte',definition:'Définition',exemples:'Exemples',remarque:'Remarque',dates:'Dates clés',image:'Image',tableau:'Tableau',frise:'Frise chrono.',croquis:'Croquis',graphe:'Graphique'};
+const CHART_TYPES=['courbe','barres','camembert'];
+const CHART_LABELS={courbe:'Courbe',barres:'Histogramme',camembert:'Camembert'};
+const CHART_COLORS=['#2D5F4F','#4A9E86','#E07B6A','#6B8FBF','#C0A845','#9B59B6','#E67E22'];
+
 function loadDB(){try{return JSON.parse(localStorage.getItem(SK))||{folders:[],fiches:[]};}catch{return{folders:[],fiches:[]};}}
-function saveDB(){localStorage.setItem(SK,JSON.stringify(db));}
+function saveDB(d){localStorage.setItem(SK,JSON.stringify(d));}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function openModal(id){document.getElementById(id).style.display='block';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+function flatFolders(db){const r=[];function w(p,d){db.folders.filter(f=>f.parent===p).forEach(f=>{r.push({id:f.id,label:'  '.repeat(d)+f.name});w(f.id,d+1);});}w(null,0);return r;}
+function getAllSubIds(db,id){let ids=[id];db.folders.filter(f=>f.parent===id).forEach(f=>ids.push(...getAllSubIds(db,f.id)));return ids;}
+function newSec(type){return{id:uid(),type,titre:'',contenu:'',table:{headers:['Colonne 1','Colonne 2'],rows:[['','']]},events:[],imgData:null,color:'#1C1A17',brushSize:4,graphe:{type:'courbe',labelX:'x',labelY:'y',colonnes:[{label:'Série 1',valeurs:['','']}],categories:['','']}};}
 
-// ═══ TREE ════════════════════════════════════════════════════
-const MATIERES=['Histoire','Géographie','Français','Maths','Sciences','SES','Philosophie','Langues','Autre'];
-const TLABELS={texte:'Texte',definition:'Définition',exemples:'Exemples',remarque:'Remarque',dates:'Dates clés',image:'Image',tableau:'Tableau',frise:'Frise chrono.',croquis:'Croquis'};
+// THEME
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const btn=document.getElementById('toggleTheme');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('ponyat_theme',t);}
+(function(){const t=document.documentElement.getAttribute('data-theme')||'light';const btn=document.getElementById('toggleTheme');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';})();
+document.getElementById('toggleTheme').addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
 
-function renderTree(){document.getElementById('tree').innerHTML=buildTree(null);}
-function buildTree(pid){
-  let h='';
-  db.folders.filter(f=>f.parent===pid).forEach(f=>{
-    const o=openFolders.has(f.id);
-    h+=`<div><div class="folder-row" onclick="toggleFolder('${f.id}')">
-      <span class="folder-arrow ${o?'open':''}">▶</span>📁
-      <span class="folder-name">${esc(f.name)}</span>
-      <button class="folder-menu-btn" onclick="event.stopPropagation();showFolderDD(event,'${f.id}')">•••</button>
-    </div>${o?`<div class="folder-children">${buildTree(f.id)}${buildFiches(f.id)}</div>`:''}</div>`;
-  });
-  return h;
-}
-function buildFiches(fid){
-  return db.fiches.filter(f=>f.folderId===fid).map(f=>`
-    <div class="fiche-row ${currentId===f.id?'active':''}" onclick="viewFiche('${f.id}')">
-      <div class="fiche-dot"></div><span class="fiche-row-name">${esc(f.titre||'Sans titre')}</span>
-    </div>`).join('');
-}
-function toggleFolder(id){openFolders.has(id)?openFolders.delete(id):openFolders.add(id);renderTree();}
-
-// ═══ FOLDER DROPDOWN ════════════════════════════════════════
-function showFolderDD(e,fid){
-  closeDD();
-  const r=e.currentTarget.getBoundingClientRect();
-  const m=document.createElement('div'); m.className='drop-menu';
-  m.style.cssText=`left:${r.left}px;top:${r.bottom+4}px;`;
-  m.innerHTML=`
-    <div class="drop-item" onclick="closeDD();openFolderModal('${fid}')">📁 Sous-dossier</div>
-    <div class="drop-item" onclick="closeDD();newFicheIn('${fid}')">+ Fiche ici</div>
-    <div class="drop-item" onclick="closeDD();renameFolder('${fid}')">✏️ Renommer</div>
-    <div class="drop-item danger" onclick="closeDD();deleteFolder('${fid}')">🗑 Supprimer</div>`;
-  document.body.appendChild(m); activeDD=m;
-  setTimeout(()=>document.addEventListener('click',closeDD,{once:true}),10);
-}
-function closeDD(){if(activeDD){activeDD.remove();activeDD=null;}}
-function deleteFolder(id){
-  if(!confirm('Supprimer ce dossier et toutes ses fiches ?'))return;
-  const ids=getAllSubIds(id);
-  db.folders=db.folders.filter(f=>!ids.includes(f.id));
-  db.fiches=db.fiches.filter(f=>!ids.includes(f.folderId));
-  if(currentId&&!db.fiches.find(f=>f.id===currentId)){currentId=null;showWelcome();}
-  saveDB();renderTree();
-}
-function getAllSubIds(id){let ids=[id];db.folders.filter(f=>f.parent===id).forEach(f=>ids.push(...getAllSubIds(f.id)));return ids;}
-
-// ═══ FOLDER MODAL ═══════════════════════════════════════════
-function openFolderModal(parentId){
-  fmEditId=null;
-  document.getElementById('fmTitle').textContent='Nouveau dossier';
-  document.getElementById('fmName').value='';
-  document.getElementById('fmParentGroup').style.display='';
-  const sel=document.getElementById('fmParent');
-  sel.innerHTML='<option value="">— Racine —</option>'+flatFolders().map(f=>`<option value="${f.id}"${f.id===parentId?' selected':''}>${esc(f.label)}</option>`).join('');
-  document.getElementById('folderModal').style.display='';
-  setTimeout(()=>document.getElementById('fmName').focus(),50);
-}
-function renameFolder(id){
-  fmEditId=id;
-  const f=db.folders.find(x=>x.id===id);
-  document.getElementById('fmTitle').textContent='Renommer';
-  document.getElementById('fmName').value=f.name;
-  document.getElementById('fmParentGroup').style.display='none';
-  document.getElementById('folderModal').style.display='';
-  setTimeout(()=>document.getElementById('fmName').focus(),50);
-}
-function closeFolderModal(){document.getElementById('folderModal').style.display='none';}
-function confirmFolder(){
-  const name=document.getElementById('fmName').value.trim(); if(!name)return;
-  if(fmEditId){db.folders.find(f=>f.id===fmEditId).name=name;}
-  else{const id=uid(),parent=document.getElementById('fmParent').value||null;db.folders.push({id,name,parent});openFolders.add(id);}
-  saveDB();closeFolderModal();renderTree();
-}
-function flatFolders(){const r=[];function w(p,d){db.folders.filter(f=>f.parent===p).forEach(f=>{r.push({id:f.id,label:'  '.repeat(d)+f.name});w(f.id,d+1);});}w(null,0);return r;}
-
-// ═══ FICHE VIEW ══════════════════════════════════════════════
-function viewFiche(id){
-  currentId=id; const f=db.fiches.find(x=>x.id===id); if(!f)return; renderTree();
-  const folder=f.folderId?db.folders.find(x=>x.id===f.folderId):null;
-  document.getElementById('mainContent').innerHTML=`
-    <div class="fiche-view">
-      <div class="fv-header">
-        <div>
-          <div class="fv-title">${esc(f.titre)}</div>
-          <div class="fv-meta">
-            <span class="badge badge-m">${esc(f.matiere)}</span>
-            ${folder?`<span class="badge badge-f">📁 ${esc(folder.name)}</span>`:''}
-          </div>
-        </div>
-        <div class="fv-actions">
-          <button class="btn-edit" onclick="editFiche('${f.id}')">✏️ Modifier</button>
-          <button class="btn-del" onclick="deleteFiche('${f.id}')">Supprimer</button>
-        </div>
-      </div>
-      ${(f.sections||[]).map(s=>secViewHtml(s)).join('')||'<p style="color:var(--text2);font-size:.88rem">Aucune section.</p>'}
-    </div>`;
-  f.sections.filter(s=>s.type==='croquis'&&s.imgData).forEach(s=>{
-    const cv=document.getElementById('cv_'+s.id); if(!cv)return;
-    const img=new Image(); img.onload=()=>cv.getContext('2d').drawImage(img,0,0); img.src=s.imgData;
-  });
+// PNF PARSER
+function parsePNF(text){
+  text=text.trim().replace(/^```[^\n]*\n?/,'').replace(/\n?```\s*$/,'').trim();
+  if(!text.startsWith('==PONYAT_FICHE==')||!text.includes('==FIN=='))throw new Error('Balises ==PONYAT_FICHE== ou ==FIN== manquantes.');
+  const inner=text.slice(text.indexOf('==PONYAT_FICHE==')+16,text.lastIndexOf('==FIN==')).trim();
+  const lines=inner.split('\n');
+  let titre='Sans titre',matiere='Histoire';
+  const sections=[];let cur=null,inC=false,cLines=[];
+  function flushC(){if(cur&&inC){cur.contenu=cLines.join('\n').trim();inC=false;cLines=[];}}
+  for(const line of lines){
+    const t=line.trim();
+    if(t==='---SECTION---'){flushC();if(cur)sections.push(cur);cur=newSec('texte');inC=false;continue;}
+    if(!cur){if(t.startsWith('TITRE:'))titre=t.slice(6).trim();else if(t.startsWith('MATIERE:'))matiere=t.slice(8).trim();continue;}
+    if(inC){cLines.push(line);continue;}
+    if(t.startsWith('TYPE:'))cur.type=t.slice(5).trim();
+    else if(t.startsWith('TITRE:'))cur.titre=t.slice(6).trim();
+    else if(t==='CONTENU:'){inC=true;cLines=[];}
+    else if(t.startsWith('EVENEMENT:')){const p=t.slice(10).split('|').map(s=>s.trim());cur.events.push({date:p[0]||'',titre:p[1]||'',desc:p[2]||''});}
+    else if(t.startsWith('HEADERS:')){cur.table.headers=t.slice(8).split('|').map(s=>s.trim());}
+    else if(t.startsWith('ROW:')){cur.table.rows.push(t.slice(4).split('|').map(s=>s.trim()));}
+    else if(t.startsWith('GRAPHE_TYPE:'))cur.graphe.type=t.slice(12).trim();
+    else if(t.startsWith('GRAPHE_LABEL_X:'))cur.graphe.labelX=t.slice(15).trim();
+    else if(t.startsWith('GRAPHE_LABEL_Y:'))cur.graphe.labelY=t.slice(15).trim();
+    else if(t.startsWith('GRAPHE_CATEGORIES:')){cur.graphe.categories=t.slice(18).split('|').map(s=>s.trim());}
+    else if(t.startsWith('GRAPHE_SERIE:')){const rest=t.slice(13);const ci=rest.indexOf(':');cur.graphe.colonnes.push({label:rest.slice(0,ci).trim(),valeurs:rest.slice(ci+1).split('|').map(s=>s.trim())});}
+  }
+  flushC();if(cur)sections.push(cur);
+  return{titre,matiere,sections};
 }
 
+function generatePNF(f){
+  let o=`==PONYAT_FICHE==\nTITRE: ${f.titre}\nMATIERE: ${f.matiere}\n`;
+  for(const s of f.sections){
+    o+=`---SECTION---\nTYPE: ${s.type}\n`;
+    if(s.titre)o+=`TITRE: ${s.titre}\n`;
+    if(s.type==='frise')(s.events||[]).forEach(ev=>o+=`EVENEMENT: ${ev.date} | ${ev.titre} | ${ev.desc||''}\n`);
+    else if(s.type==='tableau'){const t=s.table||{};if(t.headers?.length)o+=`HEADERS: ${t.headers.join(' | ')}\n`;(t.rows||[]).forEach(r=>o+=`ROW: ${r.join(' | ')}\n`);}
+    else if(s.type==='graphe'){const g=s.graphe||{};o+=`GRAPHE_TYPE: ${g.type||'courbe'}\nGRAPHE_LABEL_X: ${g.labelX||'x'}\nGRAPHE_LABEL_Y: ${g.labelY||'y'}\n`;if(g.categories?.length)o+=`GRAPHE_CATEGORIES: ${g.categories.join(' | ')}\n`;(g.colonnes||[]).forEach(c=>o+=`GRAPHE_SERIE: ${c.label}: ${c.valeurs.join(' | ')}\n`);}
+    else if(s.type!=='image'&&s.type!=='croquis')o+=`CONTENU:\n${s.contenu||''}\n`;
+  }
+  return o+`==FIN==\n`;
+}
+
+// VIEW HELPERS
+function tableViewHtml(t){const h=t.headers||[],r=t.rows||[];if(!h.length)return'<p style="color:var(--text2);font-size:.84rem">Tableau vide.</p>';return`<div style="overflow-x:auto"><table class="rev-table"><thead><tr>${h.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${r.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function friseViewHtml(evs){if(!evs||!evs.length)return'<p style="color:var(--text2);font-size:.84rem">Aucun événement.</p>';return`<div>${evs.map((ev,i)=>`<div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-date">${esc(ev.date)}</div>${i<evs.length-1?'<div class="tl-line"></div>':''}</div><div><div class="tl-ev-title">${esc(ev.titre)}</div>${ev.desc?`<div class="tl-ev-desc">${esc(ev.desc)}</div>`:''}</div></div>`).join('')}</div>`;}
+function renderChart(canvasId,g){
+  const canvas=document.getElementById(canvasId);if(!canvas)return;
+  const dk=document.documentElement.getAttribute('data-theme')==='dark';
+  const gc=dk?'rgba(255,255,255,.08)':'rgba(0,0,0,.07)',tc=dk?'#9A9080':'#6B6558';
+  const cats=g.categories||[],cols=g.colonnes||[],type=g.type||'courbe';
+  let cfg;
+  if(type==='camembert'){cfg={type:'pie',data:{labels:cats.length?cats:cols.map((_,i)=>'S'+(i+1)),datasets:[{data:cols.map(c=>parseFloat(c.valeurs[0])||0),backgroundColor:CHART_COLORS}]},options:{plugins:{legend:{labels:{color:tc}}},responsive:true,maintainAspectRatio:false}};}
+  else{const ds=cols.map((c,i)=>({label:c.label||('S'+(i+1)),data:c.valeurs.map(v=>parseFloat(v)||0),borderColor:CHART_COLORS[i%CHART_COLORS.length],backgroundColor:type==='barres'?CHART_COLORS[i%CHART_COLORS.length]+'99':'transparent',fill:false,tension:.3,borderWidth:2,pointRadius:3}));cfg={type:type==='courbe'?'line':'bar',data:{labels:cats,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tc}}},scales:{x:{ticks:{color:tc},grid:{color:gc},title:{display:!!g.labelX,text:g.labelX||'',color:tc}},y:{ticks:{color:tc},grid:{color:gc},title:{display:!!g.labelY,text:g.labelY||'',color:tc}}}}};}
+  const ex=Chart.getChart(canvas);if(ex)ex.destroy();
+  new Chart(canvas,cfg);
+}
 function secViewHtml(s){
   const hd=`<div class="sec-hd"><span class="sec-badge">${TLABELS[s.type]||s.type}</span>${s.titre?`<span class="sec-hd-title">${esc(s.titre)}</span>`:''}</div>`;
   let body='';
-  if(s.type==='image'){body=s.imgData?`<div style="padding:14px 16px"><img src="${s.imgData}" style="max-width:100%;border-radius:6px;border:1px solid var(--border)"></div>`:`<div class="sec-body" style="color:var(--text2)">Aucune image.</div>`;}
-  else if(s.type==='tableau'){body=`<div style="padding:14px 16px">${tableViewHtml(s.table||{})}</div>`;}
-  else if(s.type==='frise'){body=`<div style="padding:14px 16px">${friseViewHtml(s.events||[])}</div>`;}
-  else if(s.type==='croquis'){body=`<div style="padding:14px 16px"><canvas id="cv_${s.id}" width="640" height="300" class="sketch-view-canvas"></canvas></div>`;}
-  else{body=`<div class="sec-body">${esc(s.contenu)}</div>`;}
-  return `<div class="sec-block">${hd}${body}</div>`;
+  if(s.type==='image')body=s.imgData?`<div style="padding:13px 15px"><img src="${s.imgData}" style="max-width:100%;border-radius:5px;border:1px solid var(--border)"></div>`:`<div class="sec-body" style="color:var(--text2)">Aucune image.</div>`;
+  else if(s.type==='tableau')body=`<div style="padding:13px 15px">${tableViewHtml(s.table||{})}</div>`;
+  else if(s.type==='frise')body=`<div style="padding:13px 15px">${friseViewHtml(s.events||[])}</div>`;
+  else if(s.type==='croquis')body=`<div style="padding:13px 15px"><canvas id="cv_${s.id}" width="620" height="290" class="sketch-view-canvas"></canvas></div>`;
+  else if(s.type==='graphe')body=`<div class="chart-container"><canvas id="ch_${s.id}"></canvas></div>`;
+  else body=`<div class="sec-body">${esc(s.contenu)}</div>`;
+  return`<div class="sec-block">${hd}${body}</div>`;
 }
 
-function tableViewHtml(t){
-  const h=t.headers||[],r=t.rows||[];
-  if(!h.length)return '<p style="color:var(--text2);font-size:.85rem">Tableau vide.</p>';
-  return `<div style="overflow-x:auto"><table class="rev-table"><thead><tr>${h.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${r.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-}
-function friseViewHtml(evs){
-  if(!evs.length)return '<p style="color:var(--text2);font-size:.85rem">Aucun événement.</p>';
-  return `<div>${evs.map((ev,i)=>`<div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-date">${esc(ev.date)}</div>${i<evs.length-1?'<div class="tl-line"></div>':''}</div><div class="tl-content"><div class="tl-ev-title">${esc(ev.titre)}</div>${ev.desc?`<div class="tl-ev-desc">${esc(ev.desc)}</div>`:''}</div></div>`).join('')}</div>`;
+// STATE
+let db=loadDB(),currentId=null,edSecs=[],editingId=null,fmEditId=null,activeDD=null;
+let openFolders=new Set();
+
+// TREE
+function renderTree(){document.getElementById('tree').innerHTML=buildTree(null);}
+function buildTree(pid){let h='';db.folders.filter(f=>f.parent===pid).forEach(f=>{const o=openFolders.has(f.id);h+=`<div><div class="folder-row" onclick="toggleFolder('${f.id}')"><span class="folder-arrow ${o?'open':''}">▶</span>📁<span class="folder-name">${esc(f.name)}</span><button class="folder-menu-btn" onclick="event.stopPropagation();showFolderDD(event,'${f.id}')">•••</button></div>${o?`<div class="folder-children">${buildTree(f.id)}${buildFiches(f.id)}</div>`:''}</div>`;});return h;}
+function buildFiches(fid){return db.fiches.filter(f=>f.folderId===fid).map(f=>`<div class="fiche-row ${currentId===f.id?'active':''}" onclick="viewFiche('${f.id}')"><div class="fiche-dot"></div><span class="fiche-row-name">${esc(f.titre||'Sans titre')}</span></div>`).join('');}
+function toggleFolder(id){openFolders.has(id)?openFolders.delete(id):openFolders.add(id);renderTree();}
+function showFolderDD(e,fid){closeDD();const r=e.currentTarget.getBoundingClientRect();const m=document.createElement('div');m.className='drop-menu';m.style.cssText=`left:${r.left}px;top:${r.bottom+4}px;`;m.innerHTML=`<div class="drop-item" onclick="closeDD();openFolderModal('${fid}')">📁 Sous-dossier</div><div class="drop-item" onclick="closeDD();newFicheIn('${fid}')">+ Fiche ici</div><div class="drop-item" onclick="closeDD();renameFolder('${fid}')">✏️ Renommer</div><div class="drop-item danger" onclick="closeDD();deleteFolder('${fid}')">🗑 Supprimer</div>`;document.body.appendChild(m);activeDD=m;setTimeout(()=>document.addEventListener('click',closeDD,{once:true}),10);}
+function closeDD(){if(activeDD){activeDD.remove();activeDD=null;}}
+function deleteFolder(id){if(!confirm('Supprimer ce dossier et toutes ses fiches ?'))return;const ids=getAllSubIds(db,id);db.folders=db.folders.filter(f=>!ids.includes(f.id));db.fiches=db.fiches.filter(f=>!ids.includes(f.folderId));if(currentId&&!db.fiches.find(f=>f.id===currentId)){currentId=null;showWelcome();}saveDB(db);renderTree();}
+function openFolderModal(pid){fmEditId=null;document.getElementById('fmTitle').textContent='Nouveau dossier';document.getElementById('fmName').value='';document.getElementById('fmParentGroup').style.display='';document.getElementById('fmParent').innerHTML='<option value="">— Racine —</option>'+flatFolders(db).map(f=>`<option value="${f.id}"${f.id===pid?' selected':''}>${esc(f.label)}</option>`).join('');openModal('folderModal');setTimeout(()=>document.getElementById('fmName').focus(),60);}
+function renameFolder(id){fmEditId=id;document.getElementById('fmTitle').textContent='Renommer';document.getElementById('fmName').value=db.folders.find(x=>x.id===id).name;document.getElementById('fmParentGroup').style.display='none';openModal('folderModal');setTimeout(()=>document.getElementById('fmName').focus(),60);}
+function confirmFolder(){const name=document.getElementById('fmName').value.trim();if(!name)return;if(fmEditId)db.folders.find(f=>f.id===fmEditId).name=name;else{const id=uid(),parent=document.getElementById('fmParent').value||null;db.folders.push({id,name,parent});openFolders.add(id);}saveDB(db);closeModal('folderModal');renderTree();}
+
+// FICHE VIEW
+function viewFiche(id){
+  db=loadDB();currentId=id;
+  const f=db.fiches.find(x=>x.id===id);if(!f)return;renderTree();
+  const folder=f.folderId?db.folders.find(x=>x.id===f.folderId):null;
+  document.getElementById('mainContent').innerHTML=`<div class="fiche-view"><div class="fv-header"><div><div class="fv-title">${esc(f.titre)}</div><div class="fv-meta"><span class="badge badge-m">${esc(f.matiere)}</span>${folder?`<span class="badge badge-f">📁 ${esc(folder.name)}</span>`:''}</div></div><div class="fv-actions"><button class="btn-secondary" onclick="editFiche('${f.id}')">✏️ MODIFIER</button><button class="btn-secondary" onclick="exportFichePnf('${f.id}')">📄 EXPORTER .PNF</button><button class="btn-secondary" onclick="openPrintEditor('${f.id}')">🖨️ IMPRIMER</button><button class="btn-danger" onclick="deleteFiche('${f.id}')">SUPPRIMER</button></div></div>${(f.sections||[]).map(s=>secViewHtml(s)).join('')||'<p style="color:var(--text2);font-size:.87rem">Aucune section.</p>'}</div>`;
+  f.sections.forEach(s=>{
+    if(s.type==='croquis'&&s.imgData){const cv=document.getElementById('cv_'+s.id);if(cv){const img=new Image();img.onload=()=>cv.getContext('2d').drawImage(img,0,0);img.src=s.imgData;}}
+    if(s.type==='graphe'&&s.graphe)setTimeout(()=>renderChart('ch_'+s.id,s.graphe),50);
+  });
 }
 
-// ═══ EDITOR ══════════════════════════════════════════════════
+function exportFichePnf(id){const f=db.fiches.find(x=>x.id===id);if(!f)return;const blob=new Blob([generatePNF(f)],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(f.titre||'fiche').replace(/[^\w\s\u00C0-\u024F]/g,'').trim().replace(/\s+/g,'_')+'.pnf';a.click();}
+
+// EDITOR
 function newFiche(){editingId=null;edSecs=[];renderEditor(null,null);}
 function newFicheIn(fid){editingId=null;edSecs=[];renderEditor(null,fid);}
-function editFiche(id){editingId=id;const f=db.fiches.find(x=>x.id===id);edSecs=JSON.parse(JSON.stringify(f.sections||[]));renderEditor(f,f.folderId);}
-
-function renderEditor(f,fid){
-  currentId=null;renderTree();
-  document.getElementById('mainContent').innerHTML=`
-    <div class="editor-wrap">
-      <div class="editor-top"><h2>${f?'Modifier':'Nouvelle fiche'}</h2></div>
-      <div class="fg"><label>Titre</label><input type="text" id="edT" value="${esc(f?f.titre:'')}" placeholder="Titre de la fiche"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-        <div><label>Matière</label><select id="edM">${MATIERES.map(m=>`<option ${m===(f?f.matiere:'Histoire')?'selected':''}>${esc(m)}</option>`).join('')}</select></div>
-        <div><label>Dossier</label><select id="edF"><option value="">— Aucun —</option>${flatFolders().map(fo=>`<option value="${fo.id}"${fo.id===fid?' selected':''}>${esc(fo.label)}</option>`).join('')}</select></div>
-      </div>
-      <div class="fg"><label>Sections</label><div id="secsContainer"></div><button class="btn-add-sec" onclick="openAddSecModal()">+ Ajouter une section</button></div>
-      <div class="editor-footer">
-        <button class="btn-primary" onclick="saveFiche()">💾 Enregistrer</button>
-        <button class="btn-secondary" onclick="cancelEdit()">Annuler</button>
-      </div>
-    </div>`;
-  renderSecsEditor();
-}
-
-function renderSecsEditor(){
-  const c=document.getElementById('secsContainer'); if(!c)return;
-  c.innerHTML=edSecs.map((s,i)=>secEditorHtml(s,i)).join('');
-  edSecs.forEach((s,i)=>{if(s.type==='croquis')initSketch(i);});
-}
-
+function editFiche(id){db=loadDB();editingId=id;const f=db.fiches.find(x=>x.id===id);if(!f)return;edSecs=JSON.parse(JSON.stringify(f.sections||[]));edSecs.forEach(s=>{if(!s.table||!s.table.headers)s.table={headers:['Colonne 1','Colonne 2'],rows:[['']]};if(!s.table.rows)s.table.rows=[['','']];if(!s.events)s.events=[];if(!s.imgData)s.imgData=null;if(!s.color)s.color='#1C1A17';if(!s.brushSize)s.brushSize=4;if(!s.graphe)s.graphe={type:'courbe',labelX:'x',labelY:'y',colonnes:[{label:'Série 1',valeurs:['','']}],categories:['','']};if(s.contenu===undefined)s.contenu='';});renderEditor(f,f.folderId);}
+function renderEditor(f,fid){currentId=null;renderTree();document.getElementById('mainContent').innerHTML=`<div class="editor-wrap"><div class="editor-top"><h2>${f?'Modifier':'Nouvelle fiche'}</h2></div><div class="fg"><label>Titre</label><input type="text" id="edT" value="${esc(f?f.titre:'')}" placeholder="Titre de la fiche"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px;"><div><label>Matière</label><select id="edM">${MATIERES.map(m=>`<option ${m===(f?f.matiere:'Histoire')?'selected':''}>${esc(m)}</option>`).join('')}</select></div><div><label>Dossier</label><select id="edF"><option value="">— Aucun —</option>${flatFolders(db).map(fo=>`<option value="${fo.id}"${fo.id===fid?' selected':''}>${esc(fo.label)}</option>`).join('')}</select></div></div><div class="fg"><label>Sections</label><div id="secsContainer"></div><button class="btn-add-sec" onclick="openModal('addSecModal')">+ Ajouter une section</button></div><div class="editor-footer"><button class="btn-primary" onclick="saveFiche()">💾 Enregistrer</button><button class="btn-secondary" onclick="cancelEdit()">Annuler</button></div></div>`;renderSecsEditor();}
+function renderSecsEditor(){const c=document.getElementById('secsContainer');if(!c)return;c.innerHTML=edSecs.map((s,i)=>secEditorHtml(s,i)).join('');edSecs.forEach((s,i)=>{if(s.type==='croquis')initSketch(i);if(s.type==='graphe')setTimeout(()=>renderChartEditor(i),50);});}
 function secEditorHtml(s,i){
   const opts=Object.entries(TLABELS).map(([v,l])=>`<option value="${v}"${s.type===v?' selected':''}>${l}</option>`).join('');
   let body='';
-  if(s.type==='image'){
-    body=`<div class="img-zone" onclick="document.getElementById('imgUp_${i}').click()">${s.imgData?'✅ Image chargée — cliquer pour changer':'📷 Cliquer pour choisir une image'}<input type="file" id="imgUp_${i}" accept="image/*" style="display:none" onchange="handleImg(${i},this)"></div>${s.imgData?`<div class="img-preview"><img src="${s.imgData}"></div>`:''}`;
-  } else if(s.type==='tableau'){
-    body=tableEditorHtml(s,i);
-  } else if(s.type==='frise'){
-    body=friseEditorHtml(s,i);
-  } else if(s.type==='croquis'){
-    body=`<div class="sketch-wrap">
-      <div class="sketch-tools">
-        <button id="sp_${i}" class="stool-active" onclick="setST(${i},'pen')">✏️ Crayon</button>
-        <button id="se_${i}" onclick="setST(${i},'eraser')">⬜ Gomme</button>
-        <input type="color" id="sc_${i}" value="${s.color||'#1C1A17'}" title="Couleur" onchange="edSecs[${i}].color=this.value">
-        <span style="font-size:.72rem;color:var(--text2)">Taille</span>
-        <input type="range" id="ss_${i}" min="1" max="24" value="${s.brushSize||4}" oninput="edSecs[${i}].brushSize=+this.value">
-        <button onclick="clearSketch(${i})">🗑 Effacer</button>
-      </div>
-      <canvas id="sk_${i}" class="sketch-canvas" width="640" height="300"></canvas>
-    </div>`;
-  } else {
-    body=`<textarea placeholder="Contenu…" oninput="edSecs[${i}].contenu=this.value">${esc(s.contenu||'')}</textarea>`;
-  }
-  return `<div class="seb">
-    <div class="seb-hd">
-      <select onchange="changeSType(${i},this.value)">${opts}</select>
-      <input type="text" placeholder="Titre (optionnel)" value="${esc(s.titre||'')}" oninput="edSecs[${i}].titre=this.value">
-      <button class="btn-rm" onclick="rmSec(${i})">×</button>
-    </div>
-    <div class="seb-body">${body}</div>
-  </div>`;
+  if(s.type==='image')body=`<div class="img-zone" onclick="document.getElementById('imgUp_${i}').click()">${s.imgData?'✅ Image chargée — cliquer pour changer':'📷 Cliquer pour choisir une image'}<input type="file" id="imgUp_${i}" accept="image/*" style="display:none" onchange="handleImg(${i},this)"></div>${s.imgData?`<div class="img-preview"><img src="${s.imgData}"></div>`:''}`;
+  else if(s.type==='tableau')body=tableEditorHtml(s,i);
+  else if(s.type==='frise')body=friseEditorHtml(s,i);
+  else if(s.type==='croquis')body=`<div class="sketch-wrap"><div class="sketch-tools"><button id="sp_${i}" class="stool-active" onclick="setST(${i},'pen')">✏️ Crayon</button><button id="se_${i}" onclick="setST(${i},'eraser')">⬜ Gomme</button><input type="color" id="sc_${i}" value="${s.color||'#1C1A17'}" onchange="edSecs[${i}].color=this.value"><span style="font-size:.71rem;color:var(--text2)">Taille</span><input type="range" id="ss_${i}" min="1" max="24" value="${s.brushSize||4}" oninput="edSecs[${i}].brushSize=+this.value"><button onclick="clearSketch(${i})">🗑</button></div><canvas id="sk_${i}" class="sketch-canvas" width="620" height="290"></canvas></div>`;
+  else if(s.type==='graphe')body=grapheEditorHtml(s,i);
+  else body=`<textarea placeholder="Contenu…" oninput="edSecs[${i}].contenu=this.value">${esc(s.contenu||'')}</textarea>`;
+  return`<div class="seb"><div class="seb-hd"><select onchange="changeSType(${i},this.value)">${opts}</select><input type="text" placeholder="Titre (optionnel)" value="${esc(s.titre||'')}" oninput="edSecs[${i}].titre=this.value"><button class="btn-rm" onclick="rmSec(${i})">×</button></div><div class="seb-body">${body}</div></div>`;
 }
-
-function changeSType(i,type){
-  edSecs[i]={id:edSecs[i].id||uid(),type,titre:edSecs[i].titre||'',contenu:'',table:{headers:['Colonne 1','Colonne 2'],rows:[['','']]},events:[],imgData:null,color:'#1C1A17',brushSize:4};
-  renderSecsEditor();
-}
+function changeSType(i,type){edSecs[i]=newSec(type);renderSecsEditor();}
 function rmSec(i){edSecs.splice(i,1);renderSecsEditor();}
-
-// TABLE EDITOR
-function tableEditorHtml(s,i){
-  if(!s.table)s.table={headers:['Colonne 1','Colonne 2'],rows:[['','']]};
-  const t=s.table;
-  return `<div class="te-wrap"><table class="te"><thead><tr>
-    ${t.headers.map((h,c)=>`<th><input type="text" value="${esc(h)}" oninput="edSecs[${i}].table.headers[${c}]=this.value"></th>`).join('')}<th style="width:24px"></th></tr></thead>
-    <tbody>${t.rows.map((r,ri)=>`<tr>${r.map((cell,c)=>`<td><input type="text" value="${esc(cell)}" oninput="edSecs[${i}].table.rows[${ri}][${c}]=this.value"></td>`).join('')}<td><button onclick="rmTblRow(${i},${ri})" style="background:transparent;color:var(--danger);border:none;cursor:pointer;padding:0 6px;">×</button></td></tr>`).join('')}</tbody>
-  </table>
-  <div class="te-actions"><button onclick="addTblRow(${i})">+ Ligne</button><button onclick="addTblCol(${i})">+ Colonne</button></div></div>`;
-}
+function tableEditorHtml(s,i){if(!s.table)s.table={headers:['Colonne 1','Colonne 2'],rows:[['','']]};if(!s.table.headers)s.table.headers=['Colonne 1','Colonne 2'];if(!s.table.rows)s.table.rows=[['','']];const t=s.table;return`<div class="te-wrap"><table class="te"><thead><tr>${t.headers.map((h,c)=>`<th><input type="text" value="${esc(h)}" oninput="edSecs[${i}].table.headers[${c}]=this.value"></th>`).join('')}<th style="width:22px"></th></tr></thead><tbody>${t.rows.map((r,ri)=>`<tr>${r.map((cell,c)=>`<td><input type="text" value="${esc(cell)}" oninput="edSecs[${i}].table.rows[${ri}][${c}]=this.value"></td>`).join('')}<td><button onclick="rmTblRow(${i},${ri})" style="background:transparent;color:var(--danger);border:none;cursor:pointer;padding:0 5px;">×</button></td></tr>`).join('')}</tbody></table><div class="te-actions"><button onclick="addTblRow(${i})">+ Ligne</button><button onclick="addTblCol(${i})">+ Colonne</button></div></div>`;}
 function addTblRow(i){const t=edSecs[i].table;t.rows.push(t.headers.map(()=>''));renderSecsEditor();}
 function addTblCol(i){const t=edSecs[i].table;t.headers.push('Col '+(t.headers.length+1));t.rows.forEach(r=>r.push(''));renderSecsEditor();}
 function rmTblRow(i,ri){edSecs[i].table.rows.splice(ri,1);renderSecsEditor();}
-
-// FRISE EDITOR
-function friseEditorHtml(s,i){
-  if(!s.events)s.events=[];
-  return `<div>${s.events.map((ev,ei)=>`<div class="tl-editor-item">
-    <input type="text" value="${esc(ev.date)}" placeholder="Date" oninput="edSecs[${i}].events[${ei}].date=this.value" style="width:100px;flex-shrink:0">
-    <input type="text" value="${esc(ev.titre)}" placeholder="Événement" oninput="edSecs[${i}].events[${ei}].titre=this.value">
-    <textarea placeholder="Description (opt.)" oninput="edSecs[${i}].events[${ei}].desc=this.value">${esc(ev.desc||'')}</textarea>
-    <button class="btn-rm" onclick="rmFriseEv(${i},${ei})" style="flex-shrink:0;margin-top:8px">×</button>
-  </div>`).join('')}
-  <button class="btn-add-sec" style="margin-top:4px" onclick="addFriseEv(${i})">+ Événement</button></div>`;
-}
+function friseEditorHtml(s,i){if(!s.events)s.events=[];return`<div>${s.events.map((ev,ei)=>`<div class="tl-editor-item"><input type="text" value="${esc(ev.date)}" placeholder="Date" oninput="edSecs[${i}].events[${ei}].date=this.value" style="width:98px;flex-shrink:0"><input type="text" value="${esc(ev.titre)}" placeholder="Événement" oninput="edSecs[${i}].events[${ei}].titre=this.value"><textarea placeholder="Description (opt.)" oninput="edSecs[${i}].events[${ei}].desc=this.value">${esc(ev.desc||'')}</textarea><button class="btn-rm" onclick="rmFriseEv(${i},${ei})" style="flex-shrink:0;margin-top:7px">×</button></div>`).join('')}<button class="btn-add-sec" style="margin-top:3px" onclick="addFriseEv(${i})">+ Événement</button></div>`;}
 function addFriseEv(i){edSecs[i].events.push({date:'',titre:'',desc:''});renderSecsEditor();}
 function rmFriseEv(i,ei){edSecs[i].events.splice(ei,1);renderSecsEditor();}
-
-// IMAGE
-function handleImg(i,input){
-  const file=input.files[0];if(!file)return;
-  const r=new FileReader();r.onload=e=>{edSecs[i].imgData=e.target.result;renderSecsEditor();};r.readAsDataURL(file);
-}
-
-// SKETCH
+function grapheEditorHtml(s,i){const g=s.graphe||{type:'courbe',labelX:'x',labelY:'y',colonnes:[{label:'Série 1',valeurs:['']}],categories:['']};const typeBtns=CHART_TYPES.map(t=>`<button class="chart-type-btn ${g.type===t?'active':''}" onclick="setChartType(${i},'${t}')">${CHART_LABELS[t]}</button>`).join('');const catInputs=(g.categories||['']).map((c,ci)=>`<input type="text" value="${esc(c)}" placeholder="Cat. ${ci+1}" oninput="edSecs[${i}].graphe.categories[${ci}]=this.value;refreshChartEditor(${i})" style="margin-bottom:4px">`).join('');const serieRows=(g.colonnes||[]).map((col,ci)=>{const vals=(col.valeurs||[]).map((v,vi)=>`<input type="number" value="${v}" step="any" placeholder="0" oninput="edSecs[${i}].graphe.colonnes[${ci}].valeurs[${vi}]=this.value;refreshChartEditor(${i})" style="width:70px;margin-right:4px;margin-bottom:4px">`).join('');return`<div style="margin-bottom:8px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap"><input type="text" value="${esc(col.label)}" placeholder="Nom série" oninput="edSecs[${i}].graphe.colonnes[${ci}].label=this.value;refreshChartEditor(${i})" style="width:120px;flex-shrink:0"><div style="display:flex;flex-wrap:wrap">${vals}</div><button class="btn-rm" onclick="rmChartSerie(${i},${ci})">×</button></div>`;}).join('');return`<div><div class="chart-type-row">${typeBtns}</div><div class="chart-label-row"><div class="fg"><label>Axe X</label><input type="text" value="${esc(g.labelX||'')}" placeholder="Label axe X" oninput="edSecs[${i}].graphe.labelX=this.value;refreshChartEditor(${i})"></div><div class="fg"><label>Axe Y</label><input type="text" value="${esc(g.labelY||'')}" placeholder="Label axe Y" oninput="edSecs[${i}].graphe.labelY=this.value;refreshChartEditor(${i})"></div></div><div class="fg"><label>Catégories / étiquettes X</label>${catInputs}<div style="margin-top:4px"><button class="te-actions" style="font-size:.74rem;padding:3px 9px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);cursor:pointer" onclick="addChartCat(${i})">+ Catégorie</button></div></div><div class="fg"><label>Séries de données</label>${serieRows}<button class="btn-add-sec" style="margin-top:2px" onclick="addChartSerie(${i})">+ Série</button></div><div style="height:200px;margin-top:8px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border);padding:8px"><canvas id="ched_${i}"></canvas></div></div>`;}
+function setChartType(i,t){edSecs[i].graphe.type=t;renderSecsEditor();}
+function addChartCat(i){const g=edSecs[i].graphe;g.categories.push('');g.colonnes.forEach(c=>c.valeurs.push(''));renderSecsEditor();}
+function addChartSerie(i){edSecs[i].graphe.colonnes.push({label:'Série '+(edSecs[i].graphe.colonnes.length+1),valeurs:edSecs[i].graphe.categories.map(()=>'')});renderSecsEditor();}
+function rmChartSerie(i,ci){edSecs[i].graphe.colonnes.splice(ci,1);renderSecsEditor();}
+function refreshChartEditor(i){setTimeout(()=>{if(edSecs[i]?.graphe)renderChart('ched_'+i,edSecs[i].graphe);},30);}
+function renderChartEditor(i){if(edSecs[i]?.graphe)renderChart('ched_'+i,edSecs[i].graphe);}
+function handleImg(i,input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{edSecs[i].imgData=e.target.result;renderSecsEditor();};r.readAsDataURL(file);}
 const SKC={};
-function initSketch(i){
-  const canvas=document.getElementById('sk_'+i);if(!canvas)return;
-  const ctx=canvas.getContext('2d');ctx.lineCap='round';ctx.lineJoin='round';
-  if(edSecs[i].imgData){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0);img.src=edSecs[i].imgData;}
-  SKC[i]={ctx,drawing:false,tool:'pen'};
-  function pos(e){const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(canvas.width/r.width),y:(s.clientY-r.top)*(canvas.height/r.height)};}
-  function down(e){e.preventDefault();SKC[i].drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
-  function move(e){e.preventDefault();if(!SKC[i].drawing)return;const p=pos(e),s=edSecs[i];
-    if(SKC[i].tool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=(s.brushSize||4)*3;}
-    else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=s.color||'#1C1A17';ctx.lineWidth=s.brushSize||4;}
-    ctx.lineTo(p.x,p.y);ctx.stroke();}
-  function up(){if(!SKC[i].drawing)return;SKC[i].drawing=false;ctx.globalCompositeOperation='source-over';edSecs[i].imgData=canvas.toDataURL();}
-  canvas.addEventListener('mousedown',down);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',up);canvas.addEventListener('mouseleave',up);
-  canvas.addEventListener('touchstart',down,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',up);
-}
-function setST(i,tool){
-  if(!SKC[i])return;SKC[i].tool=tool;
-  document.getElementById('sp_'+i)?.classList.toggle('stool-active',tool==='pen');
-  document.getElementById('se_'+i)?.classList.toggle('stool-active',tool==='eraser');
-}
+function initSketch(i){const canvas=document.getElementById('sk_'+i);if(!canvas)return;const ctx=canvas.getContext('2d');ctx.lineCap='round';ctx.lineJoin='round';if(edSecs[i].imgData){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0);img.src=edSecs[i].imgData;}SKC[i]={ctx,drawing:false,tool:'pen'};function pos(e){const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(canvas.width/r.width),y:(s.clientY-r.top)*(canvas.height/r.height)};}function down(e){e.preventDefault();SKC[i].drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}function move(e){e.preventDefault();if(!SKC[i].drawing)return;const p=pos(e),s=edSecs[i];if(SKC[i].tool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=(s.brushSize||4)*3;}else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=s.color||'#1C1A17';ctx.lineWidth=s.brushSize||4;}ctx.lineTo(p.x,p.y);ctx.stroke();}function up(){if(!SKC[i].drawing)return;SKC[i].drawing=false;ctx.globalCompositeOperation='source-over';edSecs[i].imgData=canvas.toDataURL();}canvas.addEventListener('mousedown',down);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',up);canvas.addEventListener('mouseleave',up);canvas.addEventListener('touchstart',down,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',up);}
+function setST(i,tool){if(!SKC[i])return;SKC[i].tool=tool;document.getElementById('sp_'+i)?.classList.toggle('stool-active',tool==='pen');document.getElementById('se_'+i)?.classList.toggle('stool-active',tool==='eraser');}
 function clearSketch(i){const c=document.getElementById('sk_'+i);if(!c)return;c.getContext('2d').clearRect(0,0,c.width,c.height);edSecs[i].imgData=null;}
-
-// SECTION MODAL
-function openAddSecModal(){document.getElementById('addSecModal').style.display='';}
-function closeAddSecModal(){document.getElementById('addSecModal').style.display='none';}
-function addSection(type){
-  closeAddSecModal();
-  edSecs.push({id:uid(),type,titre:'',contenu:'',table:{headers:['Colonne 1','Colonne 2'],rows:[['','']]},events:[],imgData:null,color:'#1C1A17',brushSize:4});
-  renderSecsEditor();
-  setTimeout(()=>{const b=document.querySelectorAll('.seb');if(b.length)b[b.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});},60);
-}
-
-// SAVE / DELETE
-function saveFiche(){
-  const titre=document.getElementById('edT').value.trim()||'Sans titre';
-  const matiere=document.getElementById('edM').value;
-  const folderId=document.getElementById('edF').value||null;
-  const now=new Date().toISOString();
-  if(editingId){const idx=db.fiches.findIndex(x=>x.id===editingId);db.fiches[idx]={...db.fiches[idx],titre,matiere,folderId,sections:edSecs,updatedAt:now};currentId=editingId;}
-  else{const id=uid();db.fiches.unshift({id,titre,matiere,folderId,sections:edSecs,createdAt:now,updatedAt:now});currentId=id;if(folderId)openFolders.add(folderId);}
-  saveDB();viewFiche(currentId);
-}
+function addSection(type){closeModal('addSecModal');edSecs.push(newSec(type));renderSecsEditor();setTimeout(()=>{const b=document.querySelectorAll('.seb');if(b.length)b[b.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});},60);}
+function saveFiche(){edSecs.forEach((s,i)=>{if(s.type==='croquis'){const c=document.getElementById('sk_'+i);if(c)s.imgData=c.toDataURL();}});const titre=document.getElementById('edT').value.trim()||'Sans titre';const matiere=document.getElementById('edM').value;const folderId=document.getElementById('edF').value||null;const now=new Date().toISOString();db=loadDB();if(editingId){const idx=db.fiches.findIndex(x=>x.id===editingId);db.fiches[idx]={...db.fiches[idx],titre,matiere,folderId,sections:edSecs,updatedAt:now};currentId=editingId;}else{const id=uid();db.fiches.unshift({id,titre,matiere,folderId,sections:edSecs,createdAt:now,updatedAt:now});currentId=id;if(folderId)openFolders.add(folderId);}saveDB(db);viewFiche(currentId);}
 function cancelEdit(){if(editingId){currentId=editingId;viewFiche(editingId);}else showWelcome();}
-function deleteFiche(id){
-  if(!confirm('Supprimer cette fiche ?'))return;
-  db.fiches=db.fiches.filter(x=>x.id!==id);currentId=null;saveDB();renderTree();showWelcome();
-}
-function showWelcome(){
-  currentId=null;renderTree();
-  document.getElementById('mainContent').innerHTML='<div class="welcome"><div class="welcome-icon">📖</div><h2>Bienvenue sur Ponyat</h2><p>Crée un dossier et ta première fiche de révision.</p></div>';
-}
+function deleteFiche(id){if(!confirm('Supprimer cette fiche ?'))return;db=loadDB();db.fiches=db.fiches.filter(x=>x.id!==id);currentId=null;saveDB(db);renderTree();showWelcome();}
+function showWelcome(){currentId=null;renderTree();document.getElementById('mainContent').innerHTML='<div class="welcome"><div class="welcome-icon">📖</div><h2>Bienvenue sur Ponyat</h2><p>Crée un dossier et ta première fiche, ou <a href="prompt.html">génère-en une avec une IA</a>.</p></div>';}
 
-// ═══ EXPORT / IMPORT ════════════════════════════════════════
-document.getElementById('btnExport').addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ponyat_fiches.json';a.click();
-});
-document.getElementById('importInput').addEventListener('change',function(){
-  const file=this.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      if(!Array.isArray(data.fiches)||!Array.isArray(data.folders)){alert('Fichier invalide.');return;}
-      if(confirm('Remplacer toutes les données actuelles par ce fichier ?')){
-        db=data;saveDB();currentId=null;openFolders=new Set();renderTree();showWelcome();
-      }
-    }catch{alert('JSON invalide.');}
-  };r.readAsText(file);this.value='';
-});
+// PNF
+function openPnfModal(){document.getElementById('pnfTextarea').value='';document.getElementById('pnfError').style.display='none';document.getElementById('pnfFolder').innerHTML='<option value="">— Aucun —</option>'+flatFolders(db).map(f=>`<option value="${f.id}">${esc(f.label)}</option>`).join('');openModal('pnfModal');}
+function confirmPnfImport(){const errEl=document.getElementById('pnfError');try{const parsed=parsePNF(document.getElementById('pnfTextarea').value);const folderId=document.getElementById('pnfFolder').value||null;const id=uid(),now=new Date().toISOString();db=loadDB();db.fiches.unshift({id,titre:parsed.titre,matiere:parsed.matiere,folderId,sections:parsed.sections,createdAt:now,updatedAt:now});if(folderId)openFolders.add(folderId);saveDB(db);closeModal('pnfModal');viewFiche(id);}catch(e){errEl.textContent='⚠️ '+e.message;errEl.style.display='';}}
 
-// ═══ THEME ══════════════════════════════════════════════════
-const tBtn=document.getElementById('toggleTheme');
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);tBtn.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('ponyat_theme',t);}
-tBtn.addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
-applyTheme(localStorage.getItem('ponyat_theme')||'light');
+// EXPORT/IMPORT JSON
+document.getElementById('btnExport').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ponyat_fiches.json';a.click();});
+document.getElementById('importJsonInput').addEventListener('change',function(){const file=this.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data.fiches)||!Array.isArray(data.folders)){alert('Fichier invalide.');return;}if(confirm('Remplacer toutes les données actuelles ?')){db=data;saveDB(db);currentId=null;openFolders=new Set();renderTree();showWelcome();}}catch{alert('JSON invalide.');}};r.readAsText(file);this.value='';});
 
-document.getElementById('btnHelp').addEventListener('click',()=>document.getElementById('helpModal').style.display='');
 document.getElementById('btnNouvelleFiche').addEventListener('click',newFiche);
+document.getElementById('btnHelp').addEventListener('click',()=>openModal('helpModal'));
 document.getElementById('fmName').addEventListener('keydown',e=>{if(e.key==='Enter')confirmFolder();});
-
 renderTree();
+</script>
+
+<!-- ═══ PANNEAU IMPRESSION ═══════════════════════════════════ -->
+<div class="print-panel" id="printPanel">
+  <div class="print-tb">
+    <span class="print-tb-title" id="ptTitle">—</span>
+    <div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>
+    <button class="ptbtn pon" id="ptBtnPor" onclick="ptSetOri('ppor')">◻ Portrait</button>
+    <button class="ptbtn" id="ptBtnLan" onclick="ptSetOri('plan')">▭ Paysage</button>
+    <div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>
+    <label style="display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text2);cursor:pointer;white-space:nowrap;">
+      <input type="checkbox" id="ptGrid" onchange="document.getElementById('ppageGrid').classList.toggle('on',this.checked)" style="accent-color:var(--accent)"> Grille
+    </label>
+    <div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>
+    <button class="ptbtn" onclick="ptAutoPlace()">⚡ TOUT PLACER</button>
+    <button class="ptbtn pred" onclick="ptClearAll(false)">↺ VIDER</button>
+    <div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>
+    <button class="ptbtn pgo" onclick="ptGenPDF()">⬇ TÉLÉCHARGER PDF</button>
+    <button class="ptbtn-close" onclick="closePrintPanel()">✕ FERMER</button>
+  </div>
+  <div class="print-ws">
+    <div class="print-sb" id="ptSidebar">
+      <div class="print-sb-lbl">Sections à placer</div>
+    </div>
+    <div class="print-cv">
+      <div class="ppage ppor" id="ppage">
+        <div class="ppage-grid" id="ppageGrid"></div>
+        <div class="ppage-drop" id="ppageDrop"></div>
+        <div class="ppage-foot">
+          <span>Ponyat — Fiches de révision</span>
+          <span id="ppageDate"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="print-ld" id="printLd" style="display:none">
+  <div class="print-spin"></div>
+  <p style="font-size:.88rem">Génération du PDF en cours…</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// ═══ ÉDITEUR D'IMPRESSION INLINE ═════════════════════════════
+const PT_LABELS={texte:'Texte',definition:'Définition',exemples:'Exemples',remarque:'Remarque',dates:'Dates clés',image:'Image',tableau:'Tableau',frise:'Frise chrono.',croquis:'Croquis',graphe:'Graphique'};
+const PT_ICONS={texte:'📝',definition:'📖',exemples:'💡',remarque:'⚠️',dates:'📅',image:'🖼️',tableau:'🗂️',frise:'📏',croquis:'✏️',graphe:'📈'};
+const PT_COLORS=['#2D5F4F','#4A9E86','#E07B6A','#6B8FBF','#C0A845','#9B59B6','#E67E22'];
+let ptFiche=null, ptFolder=null, ptOri='ppor', ptPlaced=new Set(), ptSelW=null;
+const ptSnap=10;
+function ptS(v){return Math.max(0,Math.round(v/ptSnap)*ptSnap);}
+
+function openPrintEditor(id){
+  db=loadDB();
+  ptFiche=db.fiches.find(x=>x.id===id)||null;
+  if(!ptFiche)return;
+  ptFolder=ptFiche.folderId?db.folders.find(x=>x.id===ptFiche.folderId):null;
+  // Reset état
+  ptPlaced=new Set(); ptSelW=null; ptOri='ppor';
+  document.getElementById('ppage').className='ppage ppor';
+  document.getElementById('ptBtnPor').classList.add('pon');
+  document.getElementById('ptBtnLan').classList.remove('pon');
+  document.getElementById('ptGrid').checked=false;
+  document.getElementById('ppageGrid').classList.remove('on');
+  document.getElementById('ppage').querySelectorAll('.pwg').forEach(w=>w.remove());
+  document.getElementById('ptTitle').textContent=ptFiche.titre;
+  document.getElementById('ppageDate').textContent=new Date().toLocaleDateString('fr-FR');
+  ptBuildSidebar();
+  document.getElementById('printPanel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePrintPanel(){
+  document.getElementById('printPanel').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// SIDEBAR
+function ptBuildSidebar(){
+  const sb=document.getElementById('ptSidebar');
+  while(sb.children.length>1)sb.removeChild(sb.lastChild);
+  if(!ptFiche)return;
+  ptAddItem('__title__','📌','En-tête (titre + matière)');
+  (ptFiche.sections||[]).forEach(s=>ptAddItem(s.id,PT_ICONS[s.type]||'📄',s.titre||PT_LABELS[s.type]||s.type));
+}
+function ptAddItem(id,icon,label){
+  const el=document.createElement('div');
+  el.className='psi'+(ptPlaced.has(id)?' pused':'');
+  el.draggable=!ptPlaced.has(id);
+  el.dataset.id=id;
+  el.innerHTML=`<span>${icon}</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(label)}</span>`;
+  el.addEventListener('dragstart',e=>{e.dataTransfer.setData('ptid',id);});
+  document.getElementById('ptSidebar').appendChild(el);
+}
+function ptRefreshItem(id,used){
+  const el=document.querySelector(`.psi[data-id="${id}"]`);
+  if(el){el.classList.toggle('pused',used);el.draggable=!used;}
+}
+
+// DROP
+const ppage=document.getElementById('ppage');
+const ppageDrop=document.getElementById('ppageDrop');
+ppage.addEventListener('dragover',e=>{e.preventDefault();ppageDrop.classList.add('ov');});
+ppage.addEventListener('dragleave',e=>{if(!ppage.contains(e.relatedTarget))ppageDrop.classList.remove('ov');});
+ppage.addEventListener('drop',e=>{
+  e.preventDefault();ppageDrop.classList.remove('ov');
+  const id=e.dataTransfer.getData('ptid');
+  if(!id||ptPlaced.has(id))return;
+  const r=ppage.getBoundingClientRect();
+  ptAddWidget(id,ptS(e.clientX-r.left-80),ptS(e.clientY-r.top-16));
+});
+
+// WIDGET CONTENT
+function ptTitleHTML(){
+  return`<div style="font-family:'Lora',serif"><div style="font-size:1.15rem;font-weight:600;color:#1C1A17;line-height:1.2">${esc(ptFiche.titre)}</div><div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2D5F4F;margin-top:3px">${esc(ptFiche.matiere)}${ptFolder?' · 📁 '+esc(ptFolder.name):''}</div></div>`;
+}
+function ptSecHTML(s){
+  if(s.type==='image')return s.imgData?`<img src="${s.imgData}" style="max-width:100%">`:`<em style="color:#9A9080">Aucune image</em>`;
+  if(s.type==='croquis')return s.imgData?`<img src="${s.imgData}" style="max-width:100%">`:`<em style="color:#9A9080">Croquis vide</em>`;
+  if(s.type==='tableau'){
+    const h=(s.table?.headers||[]),r=(s.table?.rows||[]);
+    if(!h.length)return`<em style="color:#9A9080">Tableau vide</em>`;
+    return`<table class="pwt"><thead><tr>${h.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${r.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  }
+  if(s.type==='frise'){
+    const evs=s.events||[];if(!evs.length)return`<em style="color:#9A9080">Aucun événement</em>`;
+    return`<div>${evs.map((ev,i)=>`<div class="pwtl"><div class="pwtl-l"><div class="pwtl-dot"></div><div class="pwtl-dt">${esc(ev.date)}</div>${i<evs.length-1?'<div class="pwtl-ln"></div>':''}</div><div><div class="pwtl-ttl">${esc(ev.titre)}</div>${ev.desc?`<div class="pwtl-dsc">${esc(ev.desc)}</div>`:''}</div></div>`).join('')}</div>`;
+  }
+  if(s.type==='graphe')return`<div style="height:160px"><canvas id="ptch_${s.id}"></canvas></div>`;
+  return`<div style="white-space:pre-wrap">${esc(s.contenu||'')}</div>`;
+}
+function ptRenderChart(sid){
+  const s=(ptFiche.sections||[]).find(x=>x.id===sid);
+  if(!s||s.type!=='graphe'||!s.graphe)return;
+  const canvas=document.getElementById('ptch_'+sid);if(!canvas)return;
+  const g=s.graphe,cats=g.categories||[],cols=g.colonnes||[],type=g.type||'courbe';
+  const ex=Chart.getChart(canvas);if(ex)ex.destroy();
+  let cfg;
+  if(type==='camembert'){cfg={type:'pie',data:{labels:cats,datasets:[{data:cols.map(c=>parseFloat(c.valeurs[0])||0),backgroundColor:PT_COLORS}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#1C1A17',font:{size:9}}}}}};}
+  else{const ds=cols.map((c,i)=>({label:c.label,data:c.valeurs.map(v=>parseFloat(v)||0),borderColor:PT_COLORS[i%PT_COLORS.length],backgroundColor:type==='barres'?PT_COLORS[i%PT_COLORS.length]+'99':'transparent',fill:false,tension:.3,borderWidth:2,pointRadius:2}));cfg={type:type==='courbe'?'line':'bar',data:{labels:cats,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#1C1A17',font:{size:9}}}},scales:{x:{ticks:{color:'#6B6558',font:{size:8}},grid:{color:'rgba(0,0,0,.05)'}},y:{ticks:{color:'#6B6558',font:{size:8}},grid:{color:'rgba(0,0,0,.05)'}}}}}}; 
+  new Chart(canvas,cfg);
+}
+
+// ADD WIDGET
+function ptAddWidget(id,x,y,fw,fh){
+  const isTitle=id==='__title__';
+  const s=isTitle?null:(ptFiche.sections||[]).find(x=>x.id===id);
+  if(!isTitle&&!s)return;
+  ptPlaced.add(id);ptRefreshItem(id,true);
+  const badge=isTitle?'Titre':(PT_LABELS[s.type]||s.type);
+  const label=isTitle?ptFiche.titre:(s.titre||PT_LABELS[s.type]||s.type);
+  const body=isTitle?ptTitleHTML():ptSecHTML(s);
+  const defW=isTitle?ppage.offsetWidth-56:s.type==='frise'?340:s.type==='tableau'?400:s.type==='graphe'?380:280;
+  const w=document.createElement('div');
+  w.className='pwg';w.dataset.id=id;
+  w.style.left=x+'px';w.style.top=y+'px';w.style.width=(fw||defW)+'px';
+  if(fh)w.style.height=fh+'px';
+  w.innerHTML=`<div class="pwg-hd"><span class="pwg-badge">${badge}</span><span class="pwg-ttl">${esc(label)}</span><button class="pwg-x">×</button></div><div class="pwg-body">${body}</div><div class="pwg-rsz">⇲</div>`;
+  w.querySelector('.pwg-x').addEventListener('click',()=>{w.remove();ptPlaced.delete(id);ptRefreshItem(id,false);if(ptSelW===w)ptSelW=null;});
+  ppage.appendChild(w);
+  ptMakeDrag(w);ptMakeResize(w);ptSelect(w);
+  if(!isTitle&&s.type==='graphe')setTimeout(()=>ptRenderChart(s.id),80);
+}
+
+// SELECT
+function ptSelect(w){document.querySelectorAll('.pwg.psel').forEach(el=>el.classList.remove('psel'));ptSelW=w;if(w)w.classList.add('psel');}
+ppage.addEventListener('mousedown',e=>{if(e.target===ppage||e.target===ppageDrop||e.target.id==='ppageGrid')ptSelect(null);});
+
+// DRAG
+function ptMakeDrag(w){
+  w.querySelector('.pwg-hd').addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('pwg-x'))return;
+    e.preventDefault();ptSelect(w);
+    const sl=parseInt(w.style.left)||0,st=parseInt(w.style.top)||0,sx=e.clientX,sy=e.clientY;
+    const mv=e=>{w.style.left=ptS(sl+e.clientX-sx)+'px';w.style.top=ptS(Math.max(0,st+e.clientY-sy))+'px';};
+    const up=()=>{removeEventListener('mousemove',mv);removeEventListener('mouseup',up);};
+    addEventListener('mousemove',mv);addEventListener('mouseup',up);
+  });
+}
+
+// RESIZE
+function ptMakeResize(w){
+  w.querySelector('.pwg-rsz').addEventListener('mousedown',e=>{
+    e.preventDefault();e.stopPropagation();
+    const sw=w.offsetWidth,sh=w.offsetHeight,sx=e.clientX,sy=e.clientY;
+    const mv=e=>{w.style.width=ptS(Math.max(100,sw+e.clientX-sx))+'px';w.style.height=ptS(Math.max(40,sh+e.clientY-sy))+'px';};
+    const up=()=>{removeEventListener('mousemove',mv);removeEventListener('mouseup',up);};
+    addEventListener('mousemove',mv);addEventListener('mouseup',up);
+  });
+}
+
+// ORIENTATION
+function ptSetOri(o){
+  ptOri=o;
+  ppage.className='ppage '+o;
+  document.getElementById('ptBtnPor').classList.toggle('pon',o==='ppor');
+  document.getElementById('ptBtnLan').classList.toggle('pon',o==='plan');
+}
+
+// AUTO PLACE
+function ptAutoPlace(){
+  ptClearAll(true);
+  const m=28,uw=ppage.offsetWidth-m*2;let y=m;
+  ptAddWidget('__title__',m,y,uw,68);y+=82;
+  (ptFiche.sections||[]).forEach(s=>{
+    const h=s.type==='frise'?Math.max(70,(s.events||[]).length*34+32)
+           :s.type==='tableau'?Math.max(60,((s.table?.rows||[]).length+1)*24+28)
+           :s.type==='graphe'?200
+           :s.type==='image'||s.type==='croquis'?150
+           :Math.max(55,Math.ceil((s.contenu||'').length/90)*18+36);
+    ptAddWidget(s.id,m,y,uw,h);y+=h+10;
+  });
+}
+function ptClearAll(silent){
+  if(!silent&&!confirm('Vider la page ?'))return;
+  ppage.querySelectorAll('.pwg').forEach(w=>w.remove());
+  ptPlaced.clear();ptBuildSidebar();ptSelW=null;
+}
+
+// KEYBOARD dans le panneau impression
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('printPanel').classList.contains('open'))return;
+  if(!ptSelW||e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  const step=e.shiftKey?50:ptSnap;
+  const l=parseInt(ptSelW.style.left)||0,t=parseInt(ptSelW.style.top)||0;
+  if(e.key==='ArrowLeft'){e.preventDefault();ptSelW.style.left=ptS(Math.max(0,l-step))+'px';}
+  if(e.key==='ArrowRight'){e.preventDefault();ptSelW.style.left=ptS(l+step)+'px';}
+  if(e.key==='ArrowUp'){e.preventDefault();ptSelW.style.top=ptS(Math.max(0,t-step))+'px';}
+  if(e.key==='ArrowDown'){e.preventDefault();ptSelW.style.top=ptS(t+step)+'px';}
+  if((e.key==='Delete'||e.key==='Backspace')&&e.target.tagName!=='INPUT'&&e.target.tagName!=='TEXTAREA'){
+    const id=ptSelW.dataset.id;ptSelW.remove();ptPlaced.delete(id);ptRefreshItem(id,false);ptSelW=null;
+  }
+});
+
+// PDF
+async function ptGenPDF(){
+  if(!ptFiche){alert('Aucune fiche.');return;}
+  const ld=document.getElementById('printLd');ld.style.display='flex';
+  ppage.querySelectorAll('.pwg-x,.pwg-rsz').forEach(el=>el.style.visibility='hidden');
+  ppage.querySelectorAll('.pwg.psel').forEach(el=>el.classList.remove('psel'));
+  document.getElementById('ppageGrid').classList.remove('on');
+  ptSelW=null;
+  await new Promise(r=>setTimeout(r,200));
+  try{
+    const isLan=ptOri==='plan';
+    const A4w=isLan?297:210,A4h=isLan?210:297;
+    const SC=2;
+    const canvas=await html2canvas(ppage,{
+      scale:SC,
+      useCORS:true,
+      allowTaint:true,
+      backgroundColor:'#ffffff',
+      width:ppage.offsetWidth,
+      height:ppage.scrollHeight,
+      logging:false,
+      foreignObjectRendering:false,
+      onclone:doc=>{
+        doc.querySelectorAll('.pwg-x,.pwg-rsz').forEach(el=>el.style.display='none');
+        doc.querySelectorAll('.pwg').forEach(el=>{el.style.border='1px solid #D8D3C8';el.style.boxShadow='none';el.classList.remove('psel');});
+        const g=doc.getElementById('ppageGrid');if(g)g.style.opacity='0';
+      }
+    });
+    const{jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:isLan?'l':'p',unit:'mm',format:'a4'});
+    const pxPerMm=(canvas.width/SC)/A4w;
+    const totalH=(canvas.height/SC)/pxPerMm;
+    let yOff=0,pNum=0;
+    while(yOff<totalH){
+      if(pNum>0)pdf.addPage();
+      const srcY=yOff*pxPerMm*SC;
+      const srcH=Math.min(A4h*pxPerMm*SC,canvas.height-srcY);
+      const slicH=srcH/pxPerMm/SC;
+      const tmp=document.createElement('canvas');
+      tmp.width=canvas.width;tmp.height=Math.ceil(srcH);
+      tmp.getContext('2d').drawImage(canvas,0,srcY,canvas.width,srcH,0,0,canvas.width,srcH);
+      // JPEG plus robuste que PNG pour html2canvas
+      const imgData=tmp.toDataURL('image/jpeg',0.95);
+      pdf.addImage(imgData,'JPEG',0,0,A4w,slicH);
+      yOff+=A4h;pNum++;
+    }
+    const name=(ptFiche.titre||'fiche').replace(/[^\w\s\u00C0-\u024F]/g,'').trim().replace(/\s+/g,'_')+'.pdf';
+    pdf.save(name);
+  }catch(err){
+    console.error(err);
+    alert('Erreur PDF : '+err.message+'\n\nConseil : retire les sections "Croquis" de la page avant de générer le PDF.');
+  }finally{
+    ppage.querySelectorAll('.pwg-x,.pwg-rsz').forEach(el=>el.style.visibility='');
+    if(document.getElementById('ptGrid').checked)document.getElementById('ppageGrid').classList.add('on');
+    ld.style.display='none';
+  }
+}
 </script>
 </body>
 </html>

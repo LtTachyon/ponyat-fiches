@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponyat — Générer avec une IA</title>
+<script>(function(){var t=localStorage.getItem('ponyat_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F5F0;--bg2:#EDEAE2;--surface:#FFF;--border:#D8D3C8;--text:#1C1A17;--text2:#6B6558;--accent:#2D5F4F;--accent-l:#EAF2EF;--shadow:0 2px 12px rgba(0,0,0,.07);--r:10px;--tr:.18s ease;}
+[data-theme="dark"]{--bg:#141210;--bg2:#1C1A17;--surface:#232019;--border:#38342C;--text:#EDE9E0;--text2:#9A9080;--accent:#4A9E86;--accent-l:#1A2E28;--shadow:0 2px 12px rgba(0,0,0,.35);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr);}
+button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all var(--tr);}
+a{text-decoration:none;}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Lora',serif;font-size:1.2rem;font-weight:600;color:var(--text);white-space:nowrap;}
+.logo span{color:var(--accent);}
+.hactions{display:flex;gap:6px;align-items:center;}
+.btn-icon{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;}
+.btn-icon:hover{background:var(--bg2);color:var(--text);}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);padding:6px 11px;border-radius:8px;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px;}
+.nav-link:hover{background:var(--bg2);color:var(--text);}
+.nav-link.active{background:var(--accent-l);color:var(--accent);}
+.page{max-width:760px;margin:0 auto;padding:44px 24px;}
+h1{font-family:'Lora',serif;font-size:1.9rem;font-weight:600;margin-bottom:7px;}
+.subtitle{color:var(--text2);font-size:.88rem;margin-bottom:32px;line-height:1.7;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:22px;}
+.card-hd{padding:12px 18px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.card-hd-left{font-family:'Lora',serif;font-size:.95rem;font-weight:600;}
+pre{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;font-size:.78rem;line-height:1.72;padding:18px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;margin:0;}
+.copy-btn{background:var(--accent-l);color:var(--accent);border:1px solid var(--accent);border-radius:7px;padding:5px 13px;font-size:.76rem;font-weight:600;cursor:pointer;}
+.copy-btn:hover{background:var(--accent);color:#fff;}
+.copy-btn.ok{background:var(--accent);color:#fff;}
+.steps{padding:16px 18px;display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:13px;align-items:flex-start;}
+.step-num{background:var(--accent);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:.86rem;line-height:1.65;}
+.step-text strong{color:var(--accent);}
+.step-text code{background:var(--bg2);border-radius:4px;padding:1px 5px;font-size:.8rem;}
+.fmt-table{width:100%;border-collapse:collapse;font-size:.81rem;}
+.fmt-table th{background:var(--bg2);padding:7px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+.fmt-table td{padding:7px 12px;border:1px solid var(--border);vertical-align:top;}
+.fmt-table td:first-child{font-family:'Courier New',monospace;font-size:.75rem;color:var(--accent);white-space:nowrap;}
+.fmt-table td:last-child{color:var(--text2);}
+.fmt-table tr:nth-child(even) td{background:var(--bg);}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Ponyat <span>·</span> Fiches</a>
+  <div class="hactions">
+    <a href="index.html" class="nav-link">📖 MES FICHES</a>
+    <a href="prompt.html" class="nav-link active">🤖 GÉNÉRER AVEC IA</a>
+    <button class="btn-icon" id="toggleTheme" title="Thème">🌙</button>
+  </div>
+</header>
+<div class="page">
+  <h1>Générer une fiche avec une IA</h1>
+  <p class="subtitle">Copie le prompt ci-dessous dans n'importe quelle IA (Claude, ChatGPT, Gemini, Copilot…). Elle te posera quelques questions puis créera une fiche à coller directement dans Ponyat.</p>
+  <div class="card">
+    <div class="card-hd"><div class="card-hd-left">📋 Comment ça marche</div></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Copie le prompt ci-dessous et colle-le dans <strong>Claude, ChatGPT, Gemini ou Copilot</strong>.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">L'IA te pose 5 questions : sujet, matière, niveau, points à approfondir, niveau de détail.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Elle génère le fichier PNF. Copie tout le bloc de <code>==PONYAT_FICHE==</code> jusqu'à <code>==FIN==</code>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Sur la page <strong>Mes fiches</strong>, clique sur <strong>📋 COLLER PNF</strong> et colle le texte.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-hd-left">🤖 Prompt universel</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copier le prompt</button>
+    </div>
+    <pre id="promptText">Tu vas m'aider à créer une fiche de révision pour l'application Ponyat.
+
+Ponyat utilise un format texte appelé PNF (Ponyat Note File). Tu dois générer la fiche dans ce format exact — je pourrai la coller directement dans l'application.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FORMAT PNF — RÈGLES STRICTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Le fichier commence par ==PONYAT_FICHE== et se termine par ==FIN==.
+L'en-tête contient TITRE: et MATIERE:.
+Chaque section commence par ---SECTION--- et contient au minimum TYPE:.
+
+TYPES DE SECTIONS DISPONIBLES :
+
+• texte — cours libre
+  TYPE: texte
+  TITRE: (optionnel)
+  CONTENU:
+  (texte multiligne)
+
+• definition — définition d'un terme
+  TYPE: definition
+  TITRE: (le terme)
+  CONTENU:
+  (la définition)
+
+• exemples
+  TYPE: exemples
+  TITRE: (optionnel)
+  CONTENU:
+  (un exemple par ligne)
+
+• remarque — point d'attention
+  TYPE: remarque
+  TITRE: (optionnel)
+  CONTENU:
+  (la remarque)
+
+• dates — dates clés en texte libre
+  TYPE: dates
+  TITRE: (optionnel)
+  CONTENU:
+  (une date par ligne)
+
+• frise — frise chronologique
+  TYPE: frise
+  TITRE: (optionnel)
+  EVENEMENT: DATE | TITRE | Description (optionnelle)
+  (une ligne par événement)
+
+• tableau — tableau à colonnes
+  TYPE: tableau
+  TITRE: (optionnel)
+  HEADERS: Col1 | Col2 | Col3
+  ROW: val1 | val2 | val3
+  (autant de ROW que nécessaire)
+
+• graphe — graphique de données (courbe, histogramme ou camembert)
+  TYPE: graphe
+  TITRE: (optionnel)
+  GRAPHE_TYPE: courbe   ← ou : barres, camembert
+  GRAPHE_LABEL_X: Temps (s)
+  GRAPHE_LABEL_Y: Vitesse (m/s)
+  GRAPHE_CATEGORIES: 0 | 1 | 2 | 3 | 4   ← valeurs de l'axe X
+  GRAPHE_SERIE: Nom de la série: 0 | 5 | 9 | 12 | 14
+  (pour un camembert : une seule série, une valeur par catégorie)
+
+Les sections image et croquis ne peuvent pas être générées par une IA.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXEMPLE COMPLET VALIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+==PONYAT_FICHE==
+TITRE: La chute libre
+MATIERE: Sciences
+
+---SECTION---
+TYPE: texte
+TITRE: Définition
+CONTENU:
+La chute libre est le mouvement d'un objet soumis uniquement à la pesanteur, sans frottement.
+
+---SECTION---
+TYPE: graphe
+TITRE: Vitesse en fonction du temps
+GRAPHE_TYPE: courbe
+GRAPHE_LABEL_X: Temps (s)
+GRAPHE_LABEL_Y: Vitesse (m/s)
+GRAPHE_CATEGORIES: 0 | 1 | 2 | 3 | 4 | 5
+GRAPHE_SERIE: Vitesse: 0 | 9.8 | 19.6 | 29.4 | 39.2 | 49
+
+---SECTION---
+TYPE: tableau
+TITRE: Données numériques
+HEADERS: t (s) | v (m/s) | d (m)
+ROW: 0 | 0 | 0
+ROW: 1 | 9,8 | 4,9
+ROW: 2 | 19,6 | 19,6
+ROW: 3 | 29,4 | 44,1
+
+---SECTION---
+TYPE: remarque
+TITRE: À retenir
+CONTENU:
+g ≈ 9,8 m/s² sur Terre. La vitesse croît de façon linéaire, la distance de façon quadratique.
+
+==FIN==
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INSTRUCTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Avant de créer la fiche, pose-moi ces questions :
+
+1. Quel est le sujet de la fiche ?
+2. Quelle matière ? (Histoire, Géographie, Français, Maths, Sciences, SES, Philosophie, Langues, Autre)
+3. Quel niveau scolaire ? (collège, lycée, prépa, université…)
+4. Y a-t-il des points particuliers à approfondir ou des éléments obligatoires ?
+5. Quel niveau de détail ? (résumé court / fiche complète / très détaillée)
+
+Quand tu as mes réponses, génère la fiche complète au format PNF strict.
+N'écris rien avant ==PONYAT_FICHE== ni après ==FIN==.</pre>
+  </div>
+  <div class="card">
+    <div class="card-hd"><div class="card-hd-left">📄 Référence du format PNF</div></div>
+    <div style="padding:14px 18px">
+      <table class="fmt-table">
+        <thead><tr><th>Balise</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td>==PONYAT_FICHE==</td><td>Début obligatoire</td></tr>
+          <tr><td>==FIN==</td><td>Fin obligatoire</td></tr>
+          <tr><td>TITRE:</td><td>Titre de la fiche</td></tr>
+          <tr><td>MATIERE:</td><td>Matière scolaire</td></tr>
+          <tr><td>---SECTION---</td><td>Séparateur de section</td></tr>
+          <tr><td>TYPE:</td><td>texte, definition, exemples, remarque, dates, frise, tableau, graphe</td></tr>
+          <tr><td>CONTENU:</td><td>Corps texte (multiligne)</td></tr>
+          <tr><td>EVENEMENT:</td><td>Frise — format DATE | TITRE | Description</td></tr>
+          <tr><td>HEADERS: / ROW:</td><td>Tableau — valeurs séparées par |</td></tr>
+          <tr><td>GRAPHE_TYPE:</td><td>courbe, barres ou camembert</td></tr>
+          <tr><td>GRAPHE_LABEL_X/Y:</td><td>Labels des axes</td></tr>
+          <tr><td>GRAPHE_CATEGORIES:</td><td>Étiquettes X séparées par |</td></tr>
+          <tr><td>GRAPHE_SERIE:</td><td>Nom: val1 | val2 | … (une ligne par série)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const btn=document.getElementById('toggleTheme');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('ponyat_theme',t);}
+(function(){const t=document.documentElement.getAttribute('data-theme')||'light';const btn=document.getElementById('toggleTheme');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';})();
+document.getElementById('toggleTheme').addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+function copyPrompt(){navigator.clipboard.writeText(document.getElementById('promptText').textContent).then(()=>{const btn=document.getElementById('copyBtn');btn.textContent='✓ Copié !';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copier le prompt';btn.classList.remove('ok');},2500);});}
+</script>
+</body>
+</html>
