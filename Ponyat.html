@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponyat — Fiches</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F7F5F0; --bg2:#EDEAE2; --surface:#FFF; --border:#D8D3C8;
+  --text:#1C1A17; --text2:#6B6558; --accent:#2D5F4F; --accent-l:#EAF2EF;
+  --danger:#C0392B; --shadow:0 2px 12px rgba(0,0,0,.07);
+  --r:10px; --tr:.18s ease;
+}
+[data-theme="dark"] {
+  --bg:#141210; --bg2:#1C1A17; --surface:#232019; --border:#38342C;
+  --text:#EDE9E0; --text2:#9A9080; --accent:#4A9E86; --accent-l:#1A2E28;
+  --danger:#E05A4A; --shadow:0 2px 12px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr);}
+button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all var(--tr);}
+input,select,textarea{font-family:'DM Sans',sans-serif;}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:200;gap:12px;}
+.logo{font-family:'Lora',serif;font-size:1.25rem;font-weight:600;color:var(--text);white-space:nowrap;}
+.logo span{color:var(--accent);}
+.hactions{display:flex;gap:8px;align-items:center;}
+.btn-icon{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.btn-icon:hover{background:var(--bg2);color:var(--text);}
+.btn-primary{background:var(--accent);color:#fff;border-radius:8px;padding:7px 16px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px);}
+.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:7px 14px;font-size:.85rem;font-weight:500;}
+.btn-secondary:hover{background:var(--bg2);color:var(--text);}
+
+.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 57px);}
+
+aside{border-right:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;overflow-y:auto;transition:background var(--tr),border-color var(--tr);}
+.sidebar-top{padding:12px 10px 6px;display:flex;gap:6px;}
+.sidebar-top button{font-size:.78rem;padding:6px 10px;border-radius:8px;flex:1;}
+.tree{padding:4px 8px 16px;flex:1;}
+.folder-row{display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:500;color:var(--text);}
+.folder-row:hover{background:var(--bg2);}
+.folder-arrow{font-size:.65rem;color:var(--text2);width:12px;text-align:center;transition:transform var(--tr);}
+.folder-arrow.open{transform:rotate(90deg);}
+.folder-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.folder-menu-btn{opacity:0;font-size:.8rem;color:var(--text2);padding:2px 5px;border-radius:4px;background:transparent;border:none;cursor:pointer;}
+.folder-row:hover .folder-menu-btn{opacity:1;}
+.folder-menu-btn:hover{background:var(--bg2);color:var(--text);}
+.folder-children{padding-left:16px;}
+.fiche-row{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:.83rem;color:var(--text2);margin:1px 0;}
+.fiche-row:hover{background:var(--bg2);color:var(--text);}
+.fiche-row.active{background:var(--accent-l);color:var(--accent);}
+.fiche-dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;}
+.fiche-row.active .fiche-dot{background:var(--accent);}
+.fiche-row-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+main{padding:36px 44px;overflow-y:auto;max-height:calc(100vh - 57px);}
+
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;gap:14px;color:var(--text2);}
+.welcome-icon{font-size:3rem;opacity:.35;}
+.welcome h2{font-family:'Lora',serif;font-size:1.5rem;color:var(--text);font-weight:400;}
+.welcome p{font-size:.88rem;line-height:1.7;max-width:300px;}
+
+.fiche-view{animation:fadeIn .18s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.fv-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;}
+.fv-title{font-family:'Lora',serif;font-size:1.9rem;font-weight:600;line-height:1.2;}
+.fv-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.badge{display:inline-block;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:20px;padding:3px 10px;}
+.badge-m{background:var(--accent-l);color:var(--accent);}
+.badge-f{background:var(--bg2);color:var(--text2);}
+.fv-actions{display:flex;gap:8px;flex-shrink:0;}
+.btn-edit{background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-size:.82rem;cursor:pointer;}
+.btn-edit:hover{background:var(--border);}
+.btn-del{background:transparent;color:var(--danger);border:1px solid transparent;border-radius:8px;padding:7px 13px;font-size:.82rem;cursor:pointer;}
+.btn-del:hover{background:#fff0ee;}
+[data-theme="dark"] .btn-del:hover{background:#2a1210;}
+
+.sec-block{margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
+.sec-hd{padding:9px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.sec-badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-l);border-radius:4px;padding:2px 8px;}
+.sec-hd-title{font-family:'Lora',serif;font-size:.93rem;font-weight:600;}
+.sec-body{padding:14px 16px;font-size:.88rem;line-height:1.8;white-space:pre-wrap;}
+
+.rev-table{width:100%;border-collapse:collapse;font-size:.85rem;}
+.rev-table th{background:var(--bg2);font-weight:600;padding:8px 12px;text-align:left;border:1px solid var(--border);}
+.rev-table td{padding:7px 12px;border:1px solid var(--border);}
+.rev-table tr:nth-child(even) td{background:var(--bg);}
+
+.tl-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:80px;flex-shrink:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.tl-date{font-size:.75rem;font-weight:700;color:var(--accent);text-align:center;margin-top:4px;line-height:1.3;}
+.tl-line{width:2px;flex:1;min-height:16px;background:var(--border);margin-top:4px;}
+.tl-content{flex:1;}
+.tl-ev-title{font-weight:600;font-size:.88rem;margin-bottom:2px;}
+.tl-ev-desc{font-size:.81rem;color:var(--text2);line-height:1.6;}
+
+.sketch-view-canvas{border-radius:6px;border:1px solid var(--border);max-width:100%;display:block;}
+
+.editor-wrap{animation:fadeIn .18s ease;max-width:780px;}
+.editor-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.editor-top h2{font-family:'Lora',serif;font-size:1.3rem;font-weight:600;}
+.fg{margin-bottom:14px;}
+label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin-bottom:5px;}
+input[type="text"],select,textarea{font-size:.88rem;width:100%;padding:8px 12px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--r);outline:none;transition:border-color var(--tr);}
+input[type="text"]:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l);}
+textarea{resize:vertical;min-height:88px;}
+select{cursor:pointer;}
+
+.seb{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);}
+.seb-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.seb-hd select{width:auto;padding:4px 8px;font-size:.75rem;}
+.seb-hd input{flex:1;border:none;background:transparent;font-weight:500;font-size:.85rem;padding:4px 0;outline:none;}
+.seb-hd input:focus{box-shadow:none;border-color:transparent;}
+.btn-rm{background:transparent;color:var(--danger);font-size:1.1rem;padding:2px 6px;border-radius:6px;line-height:1;}
+.btn-rm:hover{background:#fff0ee;}
+[data-theme="dark"] .btn-rm:hover{background:#2a1210;}
+.seb-body{padding:12px;}
+
+.te-wrap{overflow-x:auto;}
+.te{border-collapse:collapse;font-size:.83rem;width:100%;}
+.te th,.te td{border:1px solid var(--border);padding:0;}
+.te th input,.te td input{width:100%;padding:6px 8px;border:none;background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.83rem;}
+.te th{background:var(--bg2);}
+.te th input{font-weight:600;}
+.te-actions{display:flex;gap:6px;margin-top:8px;}
+.te-actions button{font-size:.75rem;padding:4px 10px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);cursor:pointer;}
+.te-actions button:hover{background:var(--border);color:var(--text);}
+
+.tl-editor-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;}
+.tl-editor-item input[type="text"]:first-child{width:100px;flex-shrink:0;}
+.tl-editor-item textarea{flex:1;min-height:52px;}
+
+.sketch-wrap{display:flex;flex-direction:column;gap:8px;}
+.sketch-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.sketch-tools button{font-size:.75rem;padding:5px 10px;border-radius:6px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.sketch-tools button:hover,.stool-active{background:var(--accent-l)!important;color:var(--accent)!important;border-color:var(--accent)!important;}
+.sketch-tools input[type="color"]{width:30px;height:28px;border-radius:6px;border:1px solid var(--border);padding:2px;cursor:pointer;background:var(--surface);}
+.sketch-tools input[type="range"]{width:80px;accent-color:var(--accent);}
+.sketch-canvas{border:1px solid var(--border);border-radius:var(--r);cursor:crosshair;background:#fff;display:block;max-width:100%;touch-action:none;}
+
+.img-zone{border:2px dashed var(--border);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;color:var(--text2);font-size:.85rem;transition:border-color var(--tr);}
+.img-zone:hover{border-color:var(--accent);color:var(--accent);}
+.img-preview{margin-top:10px;}
+.img-preview img{max-width:100%;max-height:180px;border-radius:6px;border:1px solid var(--border);}
+
+.btn-add-sec{width:100%;padding:10px;background:transparent;border:1.5px dashed var(--border);border-radius:var(--r);color:var(--text2);font-size:.83rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;}
+.btn-add-sec:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l);}
+.editor-footer{display:flex;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid var(--border);}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;animation:fadeIn .15s ease;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px;width:370px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,.15);}
+.modal h3{font-family:'Lora',serif;font-size:1.1rem;margin-bottom:14px;}
+.modal-footer{display:flex;gap:8px;margin-top:18px;justify-content:flex-end;}
+
+.drop-menu{position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);min-width:175px;z-index:500;overflow:hidden;}
+.drop-item{padding:9px 14px;font-size:.83rem;cursor:pointer;color:var(--text);}
+.drop-item:hover{background:var(--bg2);}
+.drop-item.danger{color:var(--danger);}
+.drop-item.danger:hover{background:#fff0ee;}
+[data-theme="dark"] .drop-item.danger:hover{background:#2a1210;}
+
+.stype-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stype-btn{padding:12px 6px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.78rem;font-weight:500;text-align:center;cursor:pointer;line-height:1.6;}
+.stype-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Ponyat <span>·</span> Fiches</div>
+  <div class="hactions">
+    <label class="btn-secondary" style="cursor:pointer;display:flex;align-items:center;gap:6px;padding:7px 14px;font-size:.85rem;font-weight:500;border:1px solid var(--border);border-radius:8px;color:var(--text2);">
+      📂 Importer
+      <input type="file" accept=".json" id="importInput" style="display:none">
+    </label>
+    <button class="btn-secondary" id="btnExport">💾 Exporter</button>
+    <button class="btn-icon" id="btnHelp" title="Aide export/import">?</button>
+    <button class="btn-icon" id="toggleTheme">🌙</button>
+    <button class="btn-primary" id="btnNouvelleFiche">+ Nouvelle fiche</button>
+  </div>
+</header>
+
+<div class="app">
+  <aside>
+    <div class="sidebar-top">
+      <button class="btn-secondary" onclick="openFolderModal(null)">📁 Nouveau dossier</button>
+    </div>
+    <div class="tree" id="tree"></div>
+  </aside>
+  <main id="mainContent">
+    <div class="welcome">
+      <div class="welcome-icon">📖</div>
+      <h2>Bienvenue sur Ponyat</h2>
+      <p>Crée un dossier et ta première fiche de révision.</p>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL AIDE -->
+<div id="helpModal" style="display:none">
+  <div class="modal-overlay" onclick="if(event.target===this)document.getElementById('helpModal').style.display='none'">
+    <div class="modal" style="width:480px">
+      <h3>💾 Comment sauvegarder ses fiches ?</h3>
+      <p style="font-size:.88rem;line-height:1.75;color:var(--text2);margin-bottom:14px;">Ponyat conserve tes fiches dans le navigateur (mémoire locale). C'est pratique, mais <strong style="color:var(--text)">si tu vides ton navigateur ou changes d'appareil, tu perds tout</strong>.</p>
+      <div style="background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;border:1px solid var(--border)">
+        <div style="font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">💾 Exporter</div>
+        <p style="font-size:.86rem;line-height:1.7;color:var(--text)">Clique sur <strong>Exporter</strong> pour télécharger un fichier <code style="background:var(--border);border-radius:4px;padding:1px 5px;font-size:.82rem">ponyat_fiches.json</code> sur ton ordinateur. Ce fichier contient <em>toutes</em> tes fiches, dossiers, images et croquis. <strong>Garde-le précieusement</strong> — c'est ta sauvegarde.</p>
+      </div>
+      <div style="background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:4px;border:1px solid var(--border)">
+        <div style="font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">📂 Importer</div>
+        <p style="font-size:.86rem;line-height:1.7;color:var(--text)">Sur un autre appareil (ou après avoir vidé le navigateur), clique sur <strong>Importer</strong> et sélectionne ton fichier <code style="background:var(--border);border-radius:4px;padding:1px 5px;font-size:.82rem">.json</code>. Toutes tes fiches seront restaurées.</p>
+      </div>
+      <p style="font-size:.78rem;color:var(--text2);margin-top:12px;">💡 Bonne pratique : exporte régulièrement, par exemple après chaque session de travail.</p>
+      <div class="modal-footer"><button class="btn-primary" onclick="document.getElementById('helpModal').style.display='none'">Compris !</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DOSSIER -->
+<div id="folderModal" style="display:none">
+  <div class="modal-overlay" onclick="if(event.target===this)closeFolderModal()">
+    <div class="modal">
+      <h3 id="fmTitle">Nouveau dossier</h3>
+      <div class="fg"><label>Nom</label><input type="text" id="fmName" placeholder="Ex : Histoire-Géo"></div>
+      <div class="fg" id="fmParentGroup"><label>Dossier parent</label><select id="fmParent"></select></div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeFolderModal()">Annuler</button>
+        <button class="btn-primary" onclick="confirmFolder()">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TYPE SECTION -->
+<div id="addSecModal" style="display:none">
+  <div class="modal-overlay" onclick="if(event.target===this)closeAddSecModal()">
+    <div class="modal">
+      <h3>Ajouter une section</h3>
+      <div class="stype-grid">
+        <button class="stype-btn" onclick="addSection('texte')">📝<br>Texte</button>
+        <button class="stype-btn" onclick="addSection('definition')">📖<br>Définition</button>
+        <button class="stype-btn" onclick="addSection('exemples')">💡<br>Exemples</button>
+        <button class="stype-btn" onclick="addSection('remarque')">⚠️<br>Remarque</button>
+        <button class="stype-btn" onclick="addSection('dates')">📅<br>Dates clés</button>
+        <button class="stype-btn" onclick="addSection('image')">🖼️<br>Image</button>
+        <button class="stype-btn" onclick="addSection('tableau')">🗂️<br>Tableau</button>
+        <button class="stype-btn" onclick="addSection('frise')">📏<br>Frise chrono.</button>
+        <button class="stype-btn" onclick="addSection('croquis')">✏️<br>Croquis</button>
+      </div>
+      <div class="modal-footer"><button class="btn-secondary" onclick="closeAddSecModal()">Annuler</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══ DATA ═══════════════════════════════════════════════════
+const SK='ponyat_v2';
+let db=loadDB(), currentId=null, edSecs=[], editingId=null, fmEditId=null, activeDD=null;
+let openFolders=new Set();
+function loadDB(){try{return JSON.parse(localStorage.getItem(SK))||{folders:[],fiches:[]};}catch{return{folders:[],fiches:[]};}}
+function saveDB(){localStorage.setItem(SK,JSON.stringify(db));}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ═══ TREE ════════════════════════════════════════════════════
+const MATIERES=['Histoire','Géographie','Français','Maths','Sciences','SES','Philosophie','Langues','Autre'];
+const TLABELS={texte:'Texte',definition:'Définition',exemples:'Exemples',remarque:'Remarque',dates:'Dates clés',image:'Image',tableau:'Tableau',frise:'Frise chrono.',croquis:'Croquis'};
+
+function renderTree(){document.getElementById('tree').innerHTML=buildTree(null);}
+function buildTree(pid){
+  let h='';
+  db.folders.filter(f=>f.parent===pid).forEach(f=>{
+    const o=openFolders.has(f.id);
+    h+=`<div><div class="folder-row" onclick="toggleFolder('${f.id}')">
+      <span class="folder-arrow ${o?'open':''}">▶</span>📁
+      <span class="folder-name">${esc(f.name)}</span>
+      <button class="folder-menu-btn" onclick="event.stopPropagation();showFolderDD(event,'${f.id}')">•••</button>
+    </div>${o?`<div class="folder-children">${buildTree(f.id)}${buildFiches(f.id)}</div>`:''}</div>`;
+  });
+  return h;
+}
+function buildFiches(fid){
+  return db.fiches.filter(f=>f.folderId===fid).map(f=>`
+    <div class="fiche-row ${currentId===f.id?'active':''}" onclick="viewFiche('${f.id}')">
+      <div class="fiche-dot"></div><span class="fiche-row-name">${esc(f.titre||'Sans titre')}</span>
+    </div>`).join('');
+}
+function toggleFolder(id){openFolders.has(id)?openFolders.delete(id):openFolders.add(id);renderTree();}
+
+// ═══ FOLDER DROPDOWN ════════════════════════════════════════
+function showFolderDD(e,fid){
+  closeDD();
+  const r=e.currentTarget.getBoundingClientRect();
+  const m=document.createElement('div'); m.className='drop-menu';
+  m.style.cssText=`left:${r.left}px;top:${r.bottom+4}px;`;
+  m.innerHTML=`
+    <div class="drop-item" onclick="closeDD();openFolderModal('${fid}')">📁 Sous-dossier</div>
+    <div class="drop-item" onclick="closeDD();newFicheIn('${fid}')">+ Fiche ici</div>
+    <div class="drop-item" onclick="closeDD();renameFolder('${fid}')">✏️ Renommer</div>
+    <div class="drop-item danger" onclick="closeDD();deleteFolder('${fid}')">🗑 Supprimer</div>`;
+  document.body.appendChild(m); activeDD=m;
+  setTimeout(()=>document.addEventListener('click',closeDD,{once:true}),10);
+}
+function closeDD(){if(activeDD){activeDD.remove();activeDD=null;}}
+function deleteFolder(id){
+  if(!confirm('Supprimer ce dossier et toutes ses fiches ?'))return;
+  const ids=getAllSubIds(id);
+  db.folders=db.folders.filter(f=>!ids.includes(f.id));
+  db.fiches=db.fiches.filter(f=>!ids.includes(f.folderId));
+  if(currentId&&!db.fiches.find(f=>f.id===currentId)){currentId=null;showWelcome();}
+  saveDB();renderTree();
+}
+function getAllSubIds(id){let ids=[id];db.folders.filter(f=>f.parent===id).forEach(f=>ids.push(...getAllSubIds(f.id)));return ids;}
+
+// ═══ FOLDER MODAL ═══════════════════════════════════════════
+function openFolderModal(parentId){
+  fmEditId=null;
+  document.getElementById('fmTitle').textContent='Nouveau dossier';
+  document.getElementById('fmName').value='';
+  document.getElementById('fmParentGroup').style.display='';
+  const sel=document.getElementById('fmParent');
+  sel.innerHTML='<option value="">— Racine —</option>'+flatFolders().map(f=>`<option value="${f.id}"${f.id===parentId?' selected':''}>${esc(f.label)}</option>`).join('');
+  document.getElementById('folderModal').style.display='';
+  setTimeout(()=>document.getElementById('fmName').focus(),50);
+}
+function renameFolder(id){
+  fmEditId=id;
+  const f=db.folders.find(x=>x.id===id);
+  document.getElementById('fmTitle').textContent='Renommer';
+  document.getElementById('fmName').value=f.name;
+  document.getElementById('fmParentGroup').style.display='none';
+  document.getElementById('folderModal').style.display='';
+  setTimeout(()=>document.getElementById('fmName').focus(),50);
+}
+function closeFolderModal(){document.getElementById('folderModal').style.display='none';}
+function confirmFolder(){
+  const name=document.getElementById('fmName').value.trim(); if(!name)return;
+  if(fmEditId){db.folders.find(f=>f.id===fmEditId).name=name;}
+  else{const id=uid(),parent=document.getElementById('fmParent').value||null;db.folders.push({id,name,parent});openFolders.add(id);}
+  saveDB();closeFolderModal();renderTree();
+}
+function flatFolders(){const r=[];function w(p,d){db.folders.filter(f=>f.parent===p).forEach(f=>{r.push({id:f.id,label:'  '.repeat(d)+f.name});w(f.id,d+1);});}w(null,0);return r;}
+
+// ═══ FICHE VIEW ══════════════════════════════════════════════
+function viewFiche(id){
+  currentId=id; const f=db.fiches.find(x=>x.id===id); if(!f)return; renderTree();
+  const folder=f.folderId?db.folders.find(x=>x.id===f.folderId):null;
+  document.getElementById('mainContent').innerHTML=`
+    <div class="fiche-view">
+      <div class="fv-header">
+        <div>
+          <div class="fv-title">${esc(f.titre)}</div>
+          <div class="fv-meta">
+            <span class="badge badge-m">${esc(f.matiere)}</span>
+            ${folder?`<span class="badge badge-f">📁 ${esc(folder.name)}</span>`:''}
+          </div>
+        </div>
+        <div class="fv-actions">
+          <button class="btn-edit" onclick="editFiche('${f.id}')">✏️ Modifier</button>
+          <button class="btn-del" onclick="deleteFiche('${f.id}')">Supprimer</button>
+        </div>
+      </div>
+      ${(f.sections||[]).map(s=>secViewHtml(s)).join('')||'<p style="color:var(--text2);font-size:.88rem">Aucune section.</p>'}
+    </div>`;
+  f.sections.filter(s=>s.type==='croquis'&&s.imgData).forEach(s=>{
+    const cv=document.getElementById('cv_'+s.id); if(!cv)return;
+    const img=new Image(); img.onload=()=>cv.getContext('2d').drawImage(img,0,0); img.src=s.imgData;
+  });
+}
+
+function secViewHtml(s){
+  const hd=`<div class="sec-hd"><span class="sec-badge">${TLABELS[s.type]||s.type}</span>${s.titre?`<span class="sec-hd-title">${esc(s.titre)}</span>`:''}</div>`;
+  let body='';
+  if(s.type==='image'){body=s.imgData?`<div style="padding:14px 16px"><img src="${s.imgData}" style="max-width:100%;border-radius:6px;border:1px solid var(--border)"></div>`:`<div class="sec-body" style="color:var(--text2)">Aucune image.</div>`;}
+  else if(s.type==='tableau'){body=`<div style="padding:14px 16px">${tableViewHtml(s.table||{})}</div>`;}
+  else if(s.type==='frise'){body=`<div style="padding:14px 16px">${friseViewHtml(s.events||[])}</div>`;}
+  else if(s.type==='croquis'){body=`<div style="padding:14px 16px"><canvas id="cv_${s.id}" width="640" height="300" class="sketch-view-canvas"></canvas></div>`;}
+  else{body=`<div class="sec-body">${esc(s.contenu)}</div>`;}
+  return `<div class="sec-block">${hd}${body}</div>`;
+}
+
+function tableViewHtml(t){
+  const h=t.headers||[],r=t.rows||[];
+  if(!h.length)return '<p style="color:var(--text2);font-size:.85rem">Tableau vide.</p>';
+  return `<div style="overflow-x:auto"><table class="rev-table"><thead><tr>${h.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${r.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function friseViewHtml(evs){
+  if(!evs.length)return '<p style="color:var(--text2);font-size:.85rem">Aucun événement.</p>';
+  return `<div>${evs.map((ev,i)=>`<div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-date">${esc(ev.date)}</div>${i<evs.length-1?'<div class="tl-line"></div>':''}</div><div class="tl-content"><div class="tl-ev-title">${esc(ev.titre)}</div>${ev.desc?`<div class="tl-ev-desc">${esc(ev.desc)}</div>`:''}</div></div>`).join('')}</div>`;
+}
+
+// ═══ EDITOR ══════════════════════════════════════════════════
+function newFiche(){editingId=null;edSecs=[];renderEditor(null,null);}
+function newFicheIn(fid){editingId=null;edSecs=[];renderEditor(null,fid);}
+function editFiche(id){editingId=id;const f=db.fiches.find(x=>x.id===id);edSecs=JSON.parse(JSON.stringify(f.sections||[]));renderEditor(f,f.folderId);}
+
+function renderEditor(f,fid){
+  currentId=null;renderTree();
+  document.getElementById('mainContent').innerHTML=`
+    <div class="editor-wrap">
+      <div class="editor-top"><h2>${f?'Modifier':'Nouvelle fiche'}</h2></div>
+      <div class="fg"><label>Titre</label><input type="text" id="edT" value="${esc(f?f.titre:'')}" placeholder="Titre de la fiche"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div><label>Matière</label><select id="edM">${MATIERES.map(m=>`<option ${m===(f?f.matiere:'Histoire')?'selected':''}>${esc(m)}</option>`).join('')}</select></div>
+        <div><label>Dossier</label><select id="edF"><option value="">— Aucun —</option>${flatFolders().map(fo=>`<option value="${fo.id}"${fo.id===fid?' selected':''}>${esc(fo.label)}</option>`).join('')}</select></div>
+      </div>
+      <div class="fg"><label>Sections</label><div id="secsContainer"></div><button class="btn-add-sec" onclick="openAddSecModal()">+ Ajouter une section</button></div>
+      <div class="editor-footer">
+        <button class="btn-primary" onclick="saveFiche()">💾 Enregistrer</button>
+        <button class="btn-secondary" onclick="cancelEdit()">Annuler</button>
+      </div>
+    </div>`;
+  renderSecsEditor();
+}
+
+function renderSecsEditor(){
+  const c=document.getElementById('secsContainer'); if(!c)return;
+  c.innerHTML=edSecs.map((s,i)=>secEditorHtml(s,i)).join('');
+  edSecs.forEach((s,i)=>{if(s.type==='croquis')initSketch(i);});
+}
+
+function secEditorHtml(s,i){
+  const opts=Object.entries(TLABELS).map(([v,l])=>`<option value="${v}"${s.type===v?' selected':''}>${l}</option>`).join('');
+  let body='';
+  if(s.type==='image'){
+    body=`<div class="img-zone" onclick="document.getElementById('imgUp_${i}').click()">${s.imgData?'✅ Image chargée — cliquer pour changer':'📷 Cliquer pour choisir une image'}<input type="file" id="imgUp_${i}" accept="image/*" style="display:none" onchange="handleImg(${i},this)"></div>${s.imgData?`<div class="img-preview"><img src="${s.imgData}"></div>`:''}`;
+  } else if(s.type==='tableau'){
+    body=tableEditorHtml(s,i);
+  } else if(s.type==='frise'){
+    body=friseEditorHtml(s,i);
+  } else if(s.type==='croquis'){
+    body=`<div class="sketch-wrap">
+      <div class="sketch-tools">
+        <button id="sp_${i}" class="stool-active" onclick="setST(${i},'pen')">✏️ Crayon</button>
+        <button id="se_${i}" onclick="setST(${i},'eraser')">⬜ Gomme</button>
+        <input type="color" id="sc_${i}" value="${s.color||'#1C1A17'}" title="Couleur" onchange="edSecs[${i}].color=this.value">
+        <span style="font-size:.72rem;color:var(--text2)">Taille</span>
+        <input type="range" id="ss_${i}" min="1" max="24" value="${s.brushSize||4}" oninput="edSecs[${i}].brushSize=+this.value">
+        <button onclick="clearSketch(${i})">🗑 Effacer</button>
+      </div>
+      <canvas id="sk_${i}" class="sketch-canvas" width="640" height="300"></canvas>
+    </div>`;
+  } else {
+    body=`<textarea placeholder="Contenu…" oninput="edSecs[${i}].contenu=this.value">${esc(s.contenu||'')}</textarea>`;
+  }
+  return `<div class="seb">
+    <div class="seb-hd">
+      <select onchange="changeSType(${i},this.value)">${opts}</select>
+      <input type="text" placeholder="Titre (optionnel)" value="${esc(s.titre||'')}" oninput="edSecs[${i}].titre=this.value">
+      <button class="btn-rm" onclick="rmSec(${i})">×</button>
+    </div>
+    <div class="seb-body">${body}</div>
+  </div>`;
+}
+
+function changeSType(i,type){
+  edSecs[i]={id:edSecs[i].id||uid(),type,titre:edSecs[i].titre||'',contenu:'',table:{headers:['Colonne 1','Colonne 2'],rows:[['','']]},events:[],imgData:null,color:'#1C1A17',brushSize:4};
+  renderSecsEditor();
+}
+function rmSec(i){edSecs.splice(i,1);renderSecsEditor();}
+
+// TABLE EDITOR
+function tableEditorHtml(s,i){
+  if(!s.table)s.table={headers:['Colonne 1','Colonne 2'],rows:[['','']]};
+  const t=s.table;
+  return `<div class="te-wrap"><table class="te"><thead><tr>
+    ${t.headers.map((h,c)=>`<th><input type="text" value="${esc(h)}" oninput="edSecs[${i}].table.headers[${c}]=this.value"></th>`).join('')}<th style="width:24px"></th></tr></thead>
+    <tbody>${t.rows.map((r,ri)=>`<tr>${r.map((cell,c)=>`<td><input type="text" value="${esc(cell)}" oninput="edSecs[${i}].table.rows[${ri}][${c}]=this.value"></td>`).join('')}<td><button onclick="rmTblRow(${i},${ri})" style="background:transparent;color:var(--danger);border:none;cursor:pointer;padding:0 6px;">×</button></td></tr>`).join('')}</tbody>
+  </table>
+  <div class="te-actions"><button onclick="addTblRow(${i})">+ Ligne</button><button onclick="addTblCol(${i})">+ Colonne</button></div></div>`;
+}
+function addTblRow(i){const t=edSecs[i].table;t.rows.push(t.headers.map(()=>''));renderSecsEditor();}
+function addTblCol(i){const t=edSecs[i].table;t.headers.push('Col '+(t.headers.length+1));t.rows.forEach(r=>r.push(''));renderSecsEditor();}
+function rmTblRow(i,ri){edSecs[i].table.rows.splice(ri,1);renderSecsEditor();}
+
+// FRISE EDITOR
+function friseEditorHtml(s,i){
+  if(!s.events)s.events=[];
+  return `<div>${s.events.map((ev,ei)=>`<div class="tl-editor-item">
+    <input type="text" value="${esc(ev.date)}" placeholder="Date" oninput="edSecs[${i}].events[${ei}].date=this.value" style="width:100px;flex-shrink:0">
+    <input type="text" value="${esc(ev.titre)}" placeholder="Événement" oninput="edSecs[${i}].events[${ei}].titre=this.value">
+    <textarea placeholder="Description (opt.)" oninput="edSecs[${i}].events[${ei}].desc=this.value">${esc(ev.desc||'')}</textarea>
+    <button class="btn-rm" onclick="rmFriseEv(${i},${ei})" style="flex-shrink:0;margin-top:8px">×</button>
+  </div>`).join('')}
+  <button class="btn-add-sec" style="margin-top:4px" onclick="addFriseEv(${i})">+ Événement</button></div>`;
+}
+function addFriseEv(i){edSecs[i].events.push({date:'',titre:'',desc:''});renderSecsEditor();}
+function rmFriseEv(i,ei){edSecs[i].events.splice(ei,1);renderSecsEditor();}
+
+// IMAGE
+function handleImg(i,input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();r.onload=e=>{edSecs[i].imgData=e.target.result;renderSecsEditor();};r.readAsDataURL(file);
+}
+
+// SKETCH
+const SKC={};
+function initSketch(i){
+  const canvas=document.getElementById('sk_'+i);if(!canvas)return;
+  const ctx=canvas.getContext('2d');ctx.lineCap='round';ctx.lineJoin='round';
+  if(edSecs[i].imgData){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0);img.src=edSecs[i].imgData;}
+  SKC[i]={ctx,drawing:false,tool:'pen'};
+  function pos(e){const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(canvas.width/r.width),y:(s.clientY-r.top)*(canvas.height/r.height)};}
+  function down(e){e.preventDefault();SKC[i].drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+  function move(e){e.preventDefault();if(!SKC[i].drawing)return;const p=pos(e),s=edSecs[i];
+    if(SKC[i].tool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=(s.brushSize||4)*3;}
+    else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=s.color||'#1C1A17';ctx.lineWidth=s.brushSize||4;}
+    ctx.lineTo(p.x,p.y);ctx.stroke();}
+  function up(){if(!SKC[i].drawing)return;SKC[i].drawing=false;ctx.globalCompositeOperation='source-over';edSecs[i].imgData=canvas.toDataURL();}
+  canvas.addEventListener('mousedown',down);canvas.addEventListener('mousemove',move);canvas.addEventListener('mouseup',up);canvas.addEventListener('mouseleave',up);
+  canvas.addEventListener('touchstart',down,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',up);
+}
+function setST(i,tool){
+  if(!SKC[i])return;SKC[i].tool=tool;
+  document.getElementById('sp_'+i)?.classList.toggle('stool-active',tool==='pen');
+  document.getElementById('se_'+i)?.classList.toggle('stool-active',tool==='eraser');
+}
+function clearSketch(i){const c=document.getElementById('sk_'+i);if(!c)return;c.getContext('2d').clearRect(0,0,c.width,c.height);edSecs[i].imgData=null;}
+
+// SECTION MODAL
+function openAddSecModal(){document.getElementById('addSecModal').style.display='';}
+function closeAddSecModal(){document.getElementById('addSecModal').style.display='none';}
+function addSection(type){
+  closeAddSecModal();
+  edSecs.push({id:uid(),type,titre:'',contenu:'',table:{headers:['Colonne 1','Colonne 2'],rows:[['','']]},events:[],imgData:null,color:'#1C1A17',brushSize:4});
+  renderSecsEditor();
+  setTimeout(()=>{const b=document.querySelectorAll('.seb');if(b.length)b[b.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});},60);
+}
+
+// SAVE / DELETE
+function saveFiche(){
+  const titre=document.getElementById('edT').value.trim()||'Sans titre';
+  const matiere=document.getElementById('edM').value;
+  const folderId=document.getElementById('edF').value||null;
+  const now=new Date().toISOString();
+  if(editingId){const idx=db.fiches.findIndex(x=>x.id===editingId);db.fiches[idx]={...db.fiches[idx],titre,matiere,folderId,sections:edSecs,updatedAt:now};currentId=editingId;}
+  else{const id=uid();db.fiches.unshift({id,titre,matiere,folderId,sections:edSecs,createdAt:now,updatedAt:now});currentId=id;if(folderId)openFolders.add(folderId);}
+  saveDB();viewFiche(currentId);
+}
+function cancelEdit(){if(editingId){currentId=editingId;viewFiche(editingId);}else showWelcome();}
+function deleteFiche(id){
+  if(!confirm('Supprimer cette fiche ?'))return;
+  db.fiches=db.fiches.filter(x=>x.id!==id);currentId=null;saveDB();renderTree();showWelcome();
+}
+function showWelcome(){
+  currentId=null;renderTree();
+  document.getElementById('mainContent').innerHTML='<div class="welcome"><div class="welcome-icon">📖</div><h2>Bienvenue sur Ponyat</h2><p>Crée un dossier et ta première fiche de révision.</p></div>';
+}
+
+// ═══ EXPORT / IMPORT ════════════════════════════════════════
+document.getElementById('btnExport').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ponyat_fiches.json';a.click();
+});
+document.getElementById('importInput').addEventListener('change',function(){
+  const file=this.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!Array.isArray(data.fiches)||!Array.isArray(data.folders)){alert('Fichier invalide.');return;}
+      if(confirm('Remplacer toutes les données actuelles par ce fichier ?')){
+        db=data;saveDB();currentId=null;openFolders=new Set();renderTree();showWelcome();
+      }
+    }catch{alert('JSON invalide.');}
+  };r.readAsText(file);this.value='';
+});
+
+// ═══ THEME ══════════════════════════════════════════════════
+const tBtn=document.getElementById('toggleTheme');
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);tBtn.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('ponyat_theme',t);}
+tBtn.addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+applyTheme(localStorage.getItem('ponyat_theme')||'light');
+
+document.getElementById('btnHelp').addEventListener('click',()=>document.getElementById('helpModal').style.display='');
+document.getElementById('btnNouvelleFiche').addEventListener('click',newFiche);
+document.getElementById('fmName').addEventListener('keydown',e=>{if(e.key==='Enter')confirmFolder();});
+
+renderTree();
+</script>
+</body>
+</html>
